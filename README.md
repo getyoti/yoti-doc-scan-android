@@ -7,6 +7,7 @@ Further information can be found [here](https://developers.yoti.com/yoti-doc-sca
 You have setup the Yoti Doc Scan SDK on your backend, you can find the documentation [here](https://developers.yoti.com/yoti-doc-scan/getting-started)
 
 Minimum Android version supported: 21
+
 Currently targeting Android version: 28
 
 ## Setup the SDK
@@ -123,25 +124,38 @@ You can customise the appearance of the screens of the SDK by overriding some st
 ### Font Family and Font Colour
 In order to change the font family and the font colour you just need to define the following styles:
 
+```xml
 <style name="Yoti.v3.Font.DisplayBold">
 <style name="Yoti.v3.Font.DisplayRegular">
 <style name="Yoti.v3.Font.TextBold">
 <style name="Yoti.v3.Font.TextRegular">
 <style name="Yoti.v3.Font.TextRegular.RadioButton">
 <style name="Yoti.v3.Font.TextBold.RadioButton">
+```
 
 If you just want to change the colour of the font, then override the following colour:
-<color name="yotiDocs_colorFont">
 
+```xml
+<color name="yotiDocs_colorFont">
+```
 
 ### Primary Colours
 In order to change the colours of the different elements of the screens you just need to declare the following colours:
 
 - For the main app branding colour:
+```xml
 <color name="yotiDocs_colorPrimary">
+```
 
 - For the darker variant:
+```xml
 <color name="yotiDocs_colorPrimaryDark">
+```
 
 - For the UI contols like checkboxes and text fields:
+```xml
 <color name="yotiDocs_colorAccent">
+```
+
+## License
+Yoti Doc Scan Android SDK is under a Proprietary License see this [link](https://www.yoti.com/wp-content/uploads/2019/08/Yoti-Doc-Scan-SDK-Terms.pdf) for more information
