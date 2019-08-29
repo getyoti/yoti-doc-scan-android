@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">YotiDocScanSampleApp</string>
+    <string name="session_id_hint">SessionId</string>
+    <string name="session_token_hint">Token</string>
+    <string name="session_status_text">Session status: %1$d, %2$s</string>
+    <string name="scan_document_button">SCAN DOCUMENT</string>
+</resources>
