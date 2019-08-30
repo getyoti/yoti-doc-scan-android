@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        start_button.setOnClickListener {
+        startButton.setOnClickListener {
             yotiDocScan
                     .setSessionId("<Your Session ID>")
                     .setSessionToken("<Your Session Token>")
