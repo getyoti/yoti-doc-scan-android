@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+
+    <!-- Override Yoti fonts style to use a different font family -->
+    <style name="Custom.TextView.Title" parent="YotiDocs.TextView.Title">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Custom.TextView.Header" parent="YotiDocs.TextView.Header">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Custom.TextView.Link" parent="YotiDocs.TextView.Link">
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="Custom.TextView.Text" parent="YotiDocs.TextView.Text">
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <!-- END YOTI STYLES OVERRIDE -->
+
+</resources>

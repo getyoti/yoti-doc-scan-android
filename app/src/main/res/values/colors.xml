@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <!-- This is how you can override the Yoti Docs SDK colours -->
+    <!--
+    <color name="yotiDocs_colorPrimary">@color/colorPrimary</color>
+    <color name="yotiDocs_colorPrimaryDark">@color/colorPrimaryDark</color>
+    <color name="yotiDocs_colorAccent">@color/colorAccent</color>
+    <color name="yotiDocs_colorFont">#333b40</color>
+    -->
+</resources>
