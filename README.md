@@ -125,12 +125,11 @@ You can customise the appearance of the screens of the SDK by overriding some st
 In order to change the font family and the font colour you just need to define the following styles:
 
 ```xml
-<style name="Yoti.v3.Font.DisplayBold">
-<style name="Yoti.v3.Font.DisplayRegular">
-<style name="Yoti.v3.Font.TextBold">
-<style name="Yoti.v3.Font.TextRegular">
-<style name="Yoti.v3.Font.TextRegular.RadioButton">
-<style name="Yoti.v3.Font.TextBold.RadioButton">
+<style name="YotiDocs.TextView.Title">
+<style name="YotiDocs.TextView.Header">
+<style name="YotiDocs.TextView.Text">
+<style name="YotiDocs.TextView.Link">
+
 ```
 
 If you just want to change the colour of the font, then override the following colour:

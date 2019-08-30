@@ -5,32 +5,25 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <!-- Override Yoti fonts style to use GothicA1 -->
-    <style name="Yoti.v3.Font.DisplayBold">
+
+    <!-- Override Yoti fonts style to use a different font family -->
+    <style name="Custom.TextView.Title" parent="YotiDocs.TextView.Title">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Custom.TextView.Header" parent="YotiDocs.TextView.Header">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Yoti.v3.Font.DisplayRegular">
+    <style name="Custom.TextView.Link" parent="YotiDocs.TextView.Link">
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
-    <style name="Yoti.v3.Font.TextBold">
-        <item name="android:fontFamily">sans-serif-medium</item>
-    </style>
-
-    <style name="Yoti.v3.Font.TextRegular">
+    <style name="Custom.TextView.Text" parent="YotiDocs.TextView.Text">
         <item name="android:fontFamily">sans-serif</item>
-    </style>
-
-    <style name="Yoti.v3.Font.TextRegular.RadioButton" parent="@android:style/Widget.CompoundButton.RadioButton">
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="additionalTextFontFamily">sans-serif</item>
-    </style>
-
-    <style name="Yoti.v3.Font.TextBold.RadioButton" parent="@android:style/Widget.CompoundButton.RadioButton">
-        <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="additionalTextFontFamily">sans-serif</item>
     </style>
     <!-- END YOTI STYLES OVERRIDE -->
 
