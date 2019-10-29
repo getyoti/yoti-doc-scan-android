@@ -22,6 +22,7 @@ allprojects {
         mavenCentral()
         maven { url 'https://maven.microblink.com' }
         maven { url "https://jitpack.io" }
+        maven { url "https://maven.facetec.com" }
     }
 }
 
