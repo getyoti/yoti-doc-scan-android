@@ -30,7 +30,7 @@ Add the dependency to your build.gradle
 
 ```groovy
 dependencies {
-    implementation 'com.yoti.mobile.android.sdk:yoti-doc-scan:1.0.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-doc-scan:1.1.1'
 }
 ```
 
@@ -113,10 +113,11 @@ class MainActivity : AppCompatActivity() {
 | 3002              | User has no network          | Yes |
 | 4000              | The user did not grant permissions to the camera          | Yes |
 | 5000              | No camera.(When user's camera was not found and file upload is not allowed)          | No |
-| 6000              | SDK is out-of-date - please update the SDK to the latest version          | No |
-| 6001              | Unexpected internal error          | No |
-| 6002              | Unexpected document scanning error          | No |
-
+| 5002              | No more local tries for the liveness flow          | Yes |
+| 6001              | Unexpected internal error          | No |	| 5003              | SDK is out-of-date - please update the SDK to the latest version          | No |
+| 6002              | Unexpected document scanning error          | No |	| 5004              | Unexpected internal error          | No |
+| 5005              | Unexpected document scanning error          | No |
+| 5005              | Unexpected liveness error          | No |
 
 ## Customisation
 You can customise the appearance of the screens of the SDK by overriding some styles.
