@@ -48,6 +48,18 @@ Also you will need to add the following to your app-level build.gradle file, ins
     }
 ```
 
+### Proguard
+If you are using Proguard, you will need to add the following lines in its configuration file:
+
+```
+-keep class com.yoti.** { *; }
+-keep class com.microblink.** { *; }
+-keep class com.microblink.**$* { *; }
+-dontwarn com.microblink.**
+-keep class com.facetec.zoom.** { *; }
+-dontwarn javax.annotation.Nullable
+```
+
 ## Start the SDK
 
 After creating the session on your backend you will get a session ID and a session token, you will need to provide them to your app.
