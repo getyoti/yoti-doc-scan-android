@@ -30,7 +30,7 @@ Add the dependency to your build.gradle
 
 ```groovy
 dependencies {
-    implementation 'com.yoti.mobile.android.sdk:yoti-doc-scan:1.1.2'
+    implementation 'com.yoti.mobile.android.sdk:yoti-doc-scan:1.1.3'
 }
 ```
 
