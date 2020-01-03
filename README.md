@@ -134,24 +134,13 @@ class MainActivity : AppCompatActivity() {
 ## Customisation
 You can customise the appearance of the screens of the SDK by overriding some styles.
 
-### Font Family and Font Colour
-In order to change the font family and the font colour you just need to define the following styles:
-
-```xml
-<style name="YotiDocs.TextView.Title">
-<style name="YotiDocs.TextView.Header">
-<style name="YotiDocs.TextView.Text">
-<style name="YotiDocs.TextView.Link">
-
-```
-
-If you just want to change the colour of the font, then override the following colour:
-
+### Font Colour
+In order to change the font colour you just need to override the following colour:
 ```xml
 <color name="yotiDocs_colorFont">
 ```
 
-### Primary Colours
+### Colours
 In order to change the colours of the different elements of the screens you just need to declare the following colours:
 
 - For the main app branding colour:
