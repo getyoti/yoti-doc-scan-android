@@ -4,11 +4,15 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <!-- This is how you can override the Yoti Docs SDK colours -->
+    <!-- This is how you can override the Yoti SDK colours -->
     <!--
-    <color name="yotiDocs_colorPrimary">@color/colorPrimary</color>
-    <color name="yotiDocs_colorPrimaryDark">@color/colorPrimaryDark</color>
-    <color name="yotiDocs_colorAccent">@color/colorAccent</color>
-    <color name="yotiDocs_colorFont">#333b40</color>
+    <color name="yoti_sdk_colorPrimary">@color/colorPrimary</color>
+    <color name="yoti_sdk_colorPrimaryDark">@color/colorPrimaryDark</color>
+    <color name="yoti_sdk_colorAccent">@color/colorAccent</color>
+    <color name="yoti_sdk_colorAccentPressed">#AA164A</color>
+    <color name="yoti_sdk_colorAccentDisabled">#F8B3CB</color>
+    <color name="yoti_sdk_colorFont">#444343</color>
+    <color name="yoti_sdk_colorFontClear">#636363</color>
     -->
+
 </resources>

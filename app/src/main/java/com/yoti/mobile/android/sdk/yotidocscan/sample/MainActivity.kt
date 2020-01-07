@@ -3,13 +3,13 @@ package com.yoti.mobile.android.sdk.yotidocscan.sample
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.yoti.mobile.android.yotidocs.YOTI_DOCS_REQUEST_CODE
-import com.yoti.mobile.android.yotidocs.YotiDocScan
+import com.yoti.mobile.android.yotisdkcore.YOTI_DOCS_REQUEST_CODE
+import com.yoti.mobile.android.yotisdkcore.YotiSdk
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var yotiDocScan: YotiDocScan
+    private lateinit var yotiDocScan: YotiSdk
 
     private var sessionId: String = ""
     private var sessionToken: String = ""
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         edSessionId.setText(sessionId)
         edTokenId.setText(sessionToken)
 
-        yotiDocScan = YotiDocScan(this)
+        yotiDocScan = YotiSdk(this)
 
         buttonScanDocument.setOnClickListener {
             val success = yotiDocScan
