@@ -12,7 +12,6 @@
     <color name="yoti_sdk_colorAccentPressed">#AA164A</color>
     <color name="yoti_sdk_colorAccentDisabled">#F8B3CB</color>
     <color name="yoti_sdk_colorFont">#444343</color>
-    <color name="yoti_sdk_colorFontClear">#636363</color>
     -->
 
 </resources>
