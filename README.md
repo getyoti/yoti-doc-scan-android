@@ -26,11 +26,12 @@ allprojects {
 }
 ```
 
-Add the dependency to your build.gradle
+The Yoti SDK is composed by different features. Each feature has its own dependency and therefore, you will only need to add the dependencies of the features you are interested in to your build.gradle:
 
 ```groovy
 dependencies {
-    implementation 'com.yoti.mobile.android.sdk:yoti-doc-scan:1.1.3'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.0.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.0.0'
 }
 ```
 
@@ -68,7 +69,7 @@ Then you can start the SDK like this:
 ```kotlin
 class MainActivity : AppCompatActivity() {
 
-    private val yotiDocScan = YotiDocScan(this)
+    private val yotiSdk = YotiSdk(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
 
         startButton.setOnClickListener {
-            yotiDocScan
+            yotiSdk
                     .setSessionId("<Your Session ID>")
                     .setSessionToken("<Your Session Token>")
                     .start(this)
@@ -89,19 +90,19 @@ class MainActivity : AppCompatActivity() {
 ## Retrieve status of the session
 
 Once the user completed the flow in the SDK, the user will be redirected to the Activity which started the SDK.
-You can then retreive the current status of the current session like that:
+You can then retrieve the current status of the current session like that:
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
 
-    private val yotiDocScan = YotiDocScan(this)
+    private val yotiSdk = YotiSdk(this)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == YOTI_DOCS_REQUEST_CODE) {
 
-            val sessionStatusCode = yotiDocScan.sessionStatusCode
-            val sessionStatusDescription = yotiDocScan.sessionStatusDescription
+            val sessionStatusCode = yotiSdk.sessionStatusCode
+            val sessionStatusDescription = yotiSdk.sessionStatusDescription
 
             result_text.text = "Result code: $sessionStatusCode Message: $sessionStatusDescription"
         }
@@ -130,14 +131,16 @@ class MainActivity : AppCompatActivity() {
 | 5004              | Unexpected internal error          | No |
 | 5005              | Unexpected document scanning error          | No |
 | 5006              | Unexpected liveness error          | No |
+| 6000              | Document Capture dependency not found error          | No |
+| 6001              | Liveness Zoom dependency not found error          | No |
 
 ## Customisation
-You can customise the appearance of the screens of the SDK by overriding some styles.
+You can customise the appearance of the screens of the SDK by overriding some of the colours.
 
 ### Font Colour
 In order to change the font colour you just need to override the following colour:
 ```xml
-<color name="yotiDocs_colorFont">
+<color name="yoti_sdk_colorFont">
 ```
 
 ### Colours
@@ -145,17 +148,19 @@ In order to change the colours of the different elements of the screens you just
 
 - For the main app branding colour:
 ```xml
-<color name="yotiDocs_colorPrimary">
+<color name="yoti_sdk_colorPrimary">
 ```
 
 - For the darker variant:
 ```xml
-<color name="yotiDocs_colorPrimaryDark">
+<color name="yoti_sdk_colorPrimaryDark">
 ```
 
-- For the UI contols like checkboxes and text fields:
+- For the UI controls like checkboxes and text fields:
 ```xml
-<color name="yotiDocs_colorAccent">
+<color name="yoti_sdk_colorAccent">
+<color name="yoti_sdk_colorAccentPressed">#AA164A</color>
+<color name="yoti_sdk_colorAccentDisabled">#F8B3CB</color>
 ```
 
 ## License
