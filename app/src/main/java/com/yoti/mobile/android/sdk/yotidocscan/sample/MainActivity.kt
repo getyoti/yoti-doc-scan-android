@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var yotiDocScan: YotiSdk
+    private lateinit var yotiSdk: YotiSdk
 
     private var sessionId: String = ""
     private var sessionToken: String = ""
@@ -21,10 +21,10 @@ class MainActivity : AppCompatActivity() {
         edSessionId.setText(sessionId)
         edTokenId.setText(sessionToken)
 
-        yotiDocScan = YotiSdk(this)
+        yotiSdk = YotiSdk(this)
 
         buttonScanDocument.setOnClickListener {
-            val success = yotiDocScan
+            val success = yotiSdk
                 .setSessionId(edSessionId.text.toString())
                 .setClientSessionToken(edTokenId.text.toString())
                 .start(this)
@@ -43,8 +43,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showSessionStatus() {
-        val code = yotiDocScan.sessionStatusCode
-        val description = yotiDocScan.sessionStatusDescription
+        val code = yotiSdk.sessionStatusCode
+        val description = yotiSdk.sessionStatusDescription
         sessionStatusText.text = getString(R.string.session_status_text, code, description)
     }
 }
