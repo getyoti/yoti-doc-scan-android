@@ -1,6 +1,6 @@
 ## Yoti Doc Scan - Android SDK
 Yoti is an identity checking platform that allows organisations to verify who people are, online and in person.
-The Yoti Doc Scan SDK, allows the user to take a photo of their ID, we then verify this instantly and prepare a response, which your system can then retrieve on your hosted site.
+The Yoti SDK, allows the user to take a photo of their ID, we then verify this instantly and prepare a response, which your system can then retrieve on your hosted site.
 Further information can be found [here](https://developers.yoti.com/yoti-doc-scan)
 
 ## Requirements
@@ -26,8 +26,11 @@ allprojects {
 }
 ```
 
-The Yoti SDK is composed by different features. Each feature has its own dependency and therefore, you will only need to add the dependencies of the features you are interested in to your build.gradle:
+The Yoti SDK is composed of multiple feature modules. Each feature is optional, but you must include at least one to use the SDK. 
 
+The modules you include must match those requested by your backend. Attempts to use a module you haven't included will fail at runtime with a [600x response code](#possible-status-for-the-session). 
+
+Add modules you require to your build.gradle:
 ```groovy
 dependencies {
     implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.0.0'

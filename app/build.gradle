@@ -7,6 +7,7 @@ android {
     defaultConfig {
         applicationId "com.yoti.mobile.android.sdk.yotidocscan.sample"
         minSdkVersion 21
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -31,8 +32,4 @@ dependencies {
 
     implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.0.0'
     implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.0.0'
-
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
