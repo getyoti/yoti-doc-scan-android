@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [2.0.0] - 2020-01-10
 ### Added
 - Big changes in this release where our SDK has now been modularized:
-Each feature has its independent dependency therefore, integrators only need to include the dependencies of the features they are interested in.
+Each feature has its own dependency therefore, integrators only need to include the dependencies of the features they are interested in.
 This means that current integrators will need to change their dependencies as yoti-sdk-doc-scan doesn't exist anymore, and include one for Document Capture (yoti-sdk-doc-scan) and/or one for Zoom Liveness (yoti-sdk-liveness-zoom).
 - We have also added some new errors for integrators trying to use features whose dependencies haven't been added to their Gradle files.
 
