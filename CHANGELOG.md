@@ -8,9 +8,9 @@ Each feature has its independent dependency therefore, integrators only need to 
 This means that current integrators will need to change their dependencies as yoti-sdk-doc-scan doesn't exist anymore, and include one for Document Capture (yoti-sdk-doc-scan) and/or one for Zoom Liveness (yoti-sdk-liveness-zoom).
 - We have also added some new errors for integrators trying to use features whose dependencies haven't been added to their Gradle files.
 
-### Changed
+### Fixed
 - We have fixed an issue with the colours overriding process and changed the names of our colours.
-- Fixed an issue in the remaining Zoom Liveness attempts count.
+- Fixed a problem when counting the remaining Zoom Liveness attempts.
 - Fixed issue where the 2002 error code (Session expired) was not being returned properly to the host app.
 - Fixed a crash in Zoom Liveness when phone was low in resources and activity had to be recreated.
 - Fixed issue with the height of the country selection button.
