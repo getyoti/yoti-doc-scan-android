@@ -6,17 +6,17 @@ The Yoti SDK, allows the user to take a photo of their ID, we then verify this i
 Further information can be found [here](https://developers.yoti.com/yoti-doc-scan)
 
 ## Table of Contents
-1) [Requirements](#requirements)
-2) [Set up the SDK](#setup-the-sdk)
-    2.1) [Proguard](#proguard)
-3) [Start the SDK](#start-the-sdk)
-4) [Retrieve status of the session](#retrieve-status-of-the-session)
-    4.1) [Possible status for the session](#possible-status-for-the-session)
-5) [Customization](#customisation)
-    5.1) [Font Colour](#font-colour)
-    5.2) [Colours](#colours)
-6) [Support](#support)
-7) [License](#license)
+- [1. Requirements](#requirements)
+- [2. Set up the SDK](#setup-the-sdk)
+    - [2.1. Proguard](#proguard)
+- [3. Start the SDK](#start-the-sdk)
+- [4. Retrieve status of the session](#retrieve-status-of-the-session)
+    - [4.1. Possible status for the session](#possible-status-for-the-session)
+- [5. Customization](#customisation)
+    - [5.1. Font Colour](#font-colour)
+    - [5.2. Colours](#colours)
+- [6. Support](#support)
+- [7. License](#license)
 
 ## Requirements
 You have setup the Yoti Doc Scan SDK on your backend, you can find the documentation [here](https://developers.yoti.com/yoti-doc-scan/getting-started)
