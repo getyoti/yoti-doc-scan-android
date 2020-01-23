@@ -1,7 +1,22 @@
+![YotiBanner](./yoti_banner.png)
+
 ## Yoti Doc Scan - Android SDK
 Yoti is an identity checking platform that allows organisations to verify who people are, online and in person.
 The Yoti SDK, allows the user to take a photo of their ID, we then verify this instantly and prepare a response, which your system can then retrieve on your hosted site.
 Further information can be found [here](https://developers.yoti.com/yoti-doc-scan)
+
+## Table of Contents
+- [Requirements](#requirements)
+- [Set up the SDK](#setup-the-sdk)
+    - [Proguard](#proguard)
+- [Start the SDK](#start-the-sdk)
+- [Retrieve status of the session](#retrieve-status-of-the-session)
+    - [Possible status for the session](#possible-status-for-the-session)
+- [Customization](#customisation)
+    - [Font Colour](#font-colour)
+    - [Colours](#colours)
+- [Support](#support)
+- [License](#license)
 
 ## Requirements
 You have setup the Yoti Doc Scan SDK on your backend, you can find the documentation [here](https://developers.yoti.com/yoti-doc-scan/getting-started)
@@ -9,6 +24,9 @@ You have setup the Yoti Doc Scan SDK on your backend, you can find the documenta
 Minimum Android version supported: 21
 
 Currently targeting Android version: 28
+
+Note: we are using libraries from Android Jetpack. If you are still using the original Android Support Libraries you may encounter some issues when trying to use our SDK.
+We strongly recommend you to migrate your app to the new Androidx libraries: https://developer.android.com/jetpack/androidx/migrate
 
 ## Setup the SDK
 
@@ -26,9 +44,9 @@ allprojects {
 }
 ```
 
-The Yoti SDK is composed of multiple feature modules. Each feature is optional, but you must include at least one to use the SDK. 
+The Yoti SDK is composed of multiple feature modules. Each feature is optional, but you must include at least one to use the SDK.
 
-The modules you include must match those requested by your backend. Attempts to use a module you haven't included will fail at runtime with a [600x response code](#possible-status-for-the-session). 
+The modules you include must match those requested by your backend. Attempts to use a module you haven't included will fail at runtime with a [600x response code](#possible-status-for-the-session).
 
 Add modules you require to your build.gradle:
 ```groovy
@@ -119,16 +137,16 @@ class MainActivity : AppCompatActivity() {
 | Code              | Message                      | Retry possible for the same session                    |
 | ----------------- | ---------------------------- | ---------------------------------- |
 | 0                 | Result with success          | No                                 |
-| 1000              | No error occurred - the end-user cancelled the session for an unknown reason.          | Yes |
-| 2000              | Unauthorised request (wrong or expired session token).          | Yes |
-| 2001              | Session not found.          | Yes |
-| 2003              | SDK launched without session Token.          | Yes |
-| 2004              | SDK launched without session ID.          | Yes |
-| 3000              | Yoti's services are down or unable to process the request.          | Yes |
+| 1000              | No error occurred - the end-user cancelled the session for an unknown reason           | Yes |
+| 2000              | Unauthorised request (wrong or expired session token)           | Yes |
+| 2001              | Session not found           | Yes |
+| 2003              | SDK launched without session Token           | Yes |
+| 2004              | SDK launched without session ID           | Yes |
+| 3000              | Yoti's services are down or unable to process the request           | Yes |
 | 3001              | An error occurred during a network request          | Yes |
 | 3002              | User has no network          | Yes |
 | 4000              | The user did not grant permissions to the camera          | Yes |
-| 5000              | No camera.(When user's camera was not found and file upload is not allowed)          | No |
+| 5000              | No camera (when user's camera was not found and file upload is not allowed)          | No |
 | 5002              | No more local tries for the liveness flow          | Yes |
 | 5003              | SDK is out-of-date - please update the SDK to the latest version          | No |
 | 5004              | Unexpected internal error          | No |
@@ -165,6 +183,10 @@ In order to change the colours of the different elements of the screens you just
 <color name="yoti_sdk_colorAccentPressed">#AA164A</color>
 <color name="yoti_sdk_colorAccentDisabled">#F8B3CB</color>
 ```
+
+## Support
+If you have any other questions please do not hesitate to contact sdksupport@yoti.com.
+Once we have answered your question we may contact you again to discuss Yoti products and services. If you'd prefer us not to do this, please let us know when you e-mail.
 
 ## License
 Yoti Doc Scan Android SDK is under a Proprietary License see this [link](https://www.yoti.com/wp-content/uploads/2019/08/Yoti-Doc-Scan-SDK-Terms.pdf) for more information
