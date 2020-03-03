@@ -51,8 +51,8 @@ The modules you include must match those requested by your backend. Attempts to 
 Add modules you require to your build.gradle:
 ```groovy
 dependencies {
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.0.0'
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.0.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.1.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.1.0'
 }
 ```
 
@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == YOTI_DOCS_REQUEST_CODE) {
+        if (requestCode == YOTI_SDK_REQUEST_CODE) {
 
             val sessionStatusCode = yotiSdk.sessionStatusCode
             val sessionStatusDescription = yotiSdk.sessionStatusDescription

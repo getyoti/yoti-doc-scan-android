@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2020-03-03
+### Added
+- Support Aadhaar card and PAN card
+- Integrators would be able to request more than 1 ID document per session.
+
+### Migrating from previous versions
+`YotiSdk#YOTI_DOCS_REQUEST_CODE` has been deprecated, please use `YotiSdk#YOTI_SDK_REQUEST_CODE` instead.
+
 ## [2.0.0] - 2020-01-10
 ### Added
 - Big changes in this release where our SDK has now been modularized:
