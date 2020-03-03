@@ -3,7 +3,7 @@ package com.yoti.mobile.android.sdk.yotidocscan.sample
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.yoti.mobile.android.yotisdkcore.YOTI_DOCS_REQUEST_CODE
+import com.yoti.mobile.android.yotisdkcore.YOTI_SDK_REQUEST_CODE
 import com.yoti.mobile.android.yotisdkcore.YotiSdk
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (YOTI_DOCS_REQUEST_CODE == requestCode) {
+        if (YOTI_SDK_REQUEST_CODE == requestCode) {
             showSessionStatus()
         }
     }

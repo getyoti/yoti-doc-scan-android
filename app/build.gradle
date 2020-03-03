@@ -22,6 +22,15 @@ android {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro',
+                    'proguard-rules-retrofit.pro'
+        }
+    }
 }
 
 dependencies {
@@ -30,6 +39,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.1.0'
 
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.0.0'
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.0.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.1.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.1.0'
 }

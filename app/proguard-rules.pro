@@ -1,0 +1,6 @@
+-keep class com.yoti.** { *; }
+-keep class com.microblink.** { *; }
+-keep class com.microblink.**$* { *; }
+-dontwarn com.microblink.**
+-keep class com.facetec.zoom.** { *; }
+-dontwarn javax.annotation.Nullable
