@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.2.0] - 2020-05-01
+### Added
+- Support for NFC read of compatible ePassports
+- New documents supported: Philippines SSS ID (Social Security System ID) and Postal ID, and British Residence Permit
+
 ## [2.1.0] - 2020-03-03
 ### Added
 - Support Aadhaar card and PAN card

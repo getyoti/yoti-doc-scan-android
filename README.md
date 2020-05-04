@@ -23,7 +23,7 @@ You have setup the Yoti Doc Scan SDK on your backend, you can find the documenta
 
 Minimum Android version supported: 21
 
-Currently targeting Android version: 28
+Currently targeting Android version: 29
 
 Note: we are using libraries from Android Jetpack. If you are still using the original Android Support Libraries you may encounter some issues when trying to use our SDK.
 We strongly recommend you to migrate your app to the new Androidx libraries: https://developer.android.com/jetpack/androidx/migrate
@@ -51,8 +51,8 @@ The modules you include must match those requested by your backend. Attempts to 
 Add modules you require to your build.gradle:
 ```groovy
 dependencies {
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.1.0'
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.1.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.2.0'
 }
 ```
 
