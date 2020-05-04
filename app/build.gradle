@@ -30,6 +30,9 @@ android {
                     'proguard-rules.pro',
                     'proguard-rules-retrofit.pro'
         }
+        debug {
+             matchingFallbacks = ['release']
+        }
     }
 }
 

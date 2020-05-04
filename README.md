@@ -51,7 +51,10 @@ The modules you include must match those requested by your backend. Attempts to 
 Add modules you require to your build.gradle:
 ```groovy
 dependencies {
+    //If you need document capture
     implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.2.0'
+
+    //If you need liveness
     implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.2.0'
 }
 ```
@@ -69,6 +72,17 @@ Also you will need to add the following to your app-level build.gradle file, ins
         targetCompatibility = '1.8'
     }
 ```
+
+If you get an error `Unable to find a matching variant of com.yoti.mobile.mpp:mrtddump-android`, you should also add
+```groovy
+    android {
+        buildTypes {
+            debug {
+                matchingFallbacks = ['release']
+            }
+         }
+    }
+``` 
 
 ### Proguard
 If you are using Proguard, you will need to add the following lines in its configuration file:
