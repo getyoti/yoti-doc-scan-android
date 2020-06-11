@@ -20,39 +20,51 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+/**
+ * YDS Web SDK in Android webview sample
+ *
+ * We strongly recommend to use YDS native SDK for Android clients, because using YDS web version
+ * inside an Android WebView doesn't guarantee the compatibility and some issues can be raised
+ * depending of the SO version & WebView component version.
+ *
+ * If you still prefer just to load YDS web into an Android webview, this sample cover all the base
+ * requirements needed for a good performance, which are:
+ *
+ *      - Add permissions to manifest: check webapp module AndroidManifest.xml file
+ *
+ *      - Request all the permissions before start YDS flow and DON'T start it if
+ *        any of the permissions request is denied.
+ *
+ *      - Launch intents to pick a file or take a picture and return the results to the webview.
+ *
+ *      - Configure webview for callback management to set the results of the picture intents
+ *
+ *      - Use FileProvider api to setup Android Camera capture result file.
+ *
+ *      - Detect end of YDS flow by URL
+ *
+ *      - For a better UX, we also recommend:
+ *          - Only allow orientation portrait (in manifest) or manage orientation changes
+ *            to avoid a reload of the flow if the user rotates the device
+ *          - Use a NoActionBar theme
+ *          - Manage back navigation: users can press back hardware button and exit from the flow
+ *
+ *
+ */
 private const val CAMERA_REQUEST_CODE = 1112
 private const val FILE_PICKER_REQUEST_CODE = 1113
 private const val PERMISSIONS_REQUEST_CODE = 1114
 
 private const val TAG = "YdsWebSample"
-private const val SESSION_URL = "<Your YDS Session URL here>"
+private const val SESSION_URL = "<YourYDSSession>"
 
-/**
- * We strongly recommend to use YDS native SDK for Android clients, but if you still
- * prefer just to load YDS web into an Android webview, this sample could be useful
- * to know what is the configuration needed. Basically, it is doing the following:
- *
- *  1. Add permissions to manifest: check webapp module AndroidManifest.xml file
- *
- *  2. Request all the permissions before start YDS flow and DON'T start it if
- *     any of the permissions request is denied.
- *
- *  4. Only allow orientation portrait (in manifest) or manage orientation changes
- *     to avoid a reload of the flow if the user rotates the device.
- *
- *  5. Configure webview for callback management.
- *
- *  6. Manage camera capture results (image rotation).
- *
- *  7. To show the webview, we recommend to use a NoActionBar theme.
- *
- */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var cameraCaptureFileUri: Uri
@@ -79,9 +91,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 CAMERA_REQUEST_CODE -> {
-                    // TODO: Manage image rotation before set the image result to the webview.
-                    //  By default the camera is in landscape mode, so every image received
-                    //  has to be rotate to display it in portrait
                     Log.d(TAG, "Receive camera result $cameraCaptureFileUri")
                     filePathCallback?.onReceiveValue(arrayOf(cameraCaptureFileUri))
                 }
@@ -89,11 +98,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        webview.destroy()
+        super.onDestroy()
+    }
+
     override fun onRequestPermissionsResult(
             requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
         if (requestCode == PERMISSIONS_REQUEST_CODE) {
-            grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED }?.also {
+            grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED }?.let {
                 AlertDialog.Builder(this)
                         .setTitle("Permissions needed")
                         .setMessage("All permissions are needed to continue with the YDS session")
@@ -152,12 +166,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun launchCamera() {
         Log.d(TAG, "Launch Camera intent")
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraCaptureFileUri = createFileUri()
-        cameraIntent.putExtra(
-                MediaStore.EXTRA_OUTPUT,
-                cameraCaptureFileUri
-        )
+
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                .setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                .putExtra(MediaStore.EXTRA_OUTPUT, cameraCaptureFileUri)
 
         startActivityForResult(Intent.createChooser(cameraIntent, "Select a picture"), CAMERA_REQUEST_CODE)
     }
@@ -175,15 +188,21 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun createFileUri() : Uri {
+    /**
+     * Create a file accessible from other applications by FileProvider api
+     */
+    private fun createFileUri(): Uri {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.UK).format(Date())
         val imageFileName = "YDSCapture_${timeStamp}"
-        val storageDir = this.getExternalFilesDir(
+        val storageDir = getExternalFilesDir(
                 Environment.DIRECTORY_PICTURES
         )
-        val file = File.createTempFile(imageFileName, ".jpg", storageDir)
 
-        return Uri.fromFile(file)
+        return FileProvider.getUriForFile(
+                this,
+                BuildConfig.APPLICATION_ID + ".provider",
+                File.createTempFile(imageFileName, ".jpg", storageDir)
+        )
     }
 
     private inner class YdsWebChromeClient: WebChromeClient() {
@@ -210,7 +229,7 @@ class MainActivity : AppCompatActivity() {
 
     private inner class YdsWebClient : WebViewClient() {
         // Detect the URL that indicates that YDS flow is finished
-        // and we can close the webview
+        // and close the app
         override fun shouldOverrideUrlLoading(
                 view: WebView?, request: WebResourceRequest?
         ): Boolean {
@@ -223,6 +242,7 @@ class MainActivity : AppCompatActivity() {
 
                 return true
             }
+            request?.url?.toString()?.let { Log.d(TAG, it) }
 
             return super.shouldOverrideUrlLoading(view, request)
         }
