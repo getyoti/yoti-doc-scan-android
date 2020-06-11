@@ -55,15 +55,13 @@ import java.util.Locale
  *            to avoid a reload of the flow if the user rotates the device
  *          - Use a NoActionBar theme
  *          - Manage back navigation: users can press back hardware button and exit from the flow
- *
- *
  */
 private const val CAMERA_REQUEST_CODE = 1112
 private const val FILE_PICKER_REQUEST_CODE = 1113
 private const val PERMISSIONS_REQUEST_CODE = 1114
 
 private const val TAG = "YdsWebSample"
-private const val SESSION_URL = "<YourYDSSession>"
+private const val SESSION_URL = "<YourYdsURLSessionHere>"
 
 class MainActivity : AppCompatActivity() {
 
