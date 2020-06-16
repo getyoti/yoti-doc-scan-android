@@ -28,13 +28,13 @@ import java.util.Date
 import java.util.Locale
 
 /**
- * YDS Web SDK in Android webview sample
+ * YDS Web SDK in Android WebView sample
  *
  * We strongly recommend to use YDS native SDK for Android clients, because using YDS web version
  * inside an Android WebView doesn't guarantee the compatibility and some issues can be raised
  * depending of the SO version & WebView component version.
  *
- * If you still prefer just to load YDS web into an Android webview, this sample cover all the base
+ * If you still prefer just to load YDS web into an Android WebView, this sample cover all the base
  * requirements needed for a good performance, which are:
  *
  *      - Add permissions to manifest: check webapp module AndroidManifest.xml file
@@ -42,13 +42,18 @@ import java.util.Locale
  *      - Request all the permissions before start YDS flow and DON'T start it if
  *        any of the permissions request is denied.
  *
- *      - Launch intents to pick a file or take a picture and return the results to the webview.
+ *      - Launch intents to pick a file or take a picture and return the results to the WebView.
  *
- *      - Configure webview for callback management to set the results of the picture intents
+ *      - Configure WebView for callback management to set the results of the picture intents
  *
  *      - Use FileProvider api to setup Android Camera capture result file.
  *
  *      - Detect end of YDS flow by URL
+ *
+ *      - Bear in mind/manage view re-creation: The app can be put in background by the user and if the
+ *        system memory is low, the process can be destroyed by the system. If this happens, the view will
+ *        be re-created when the app is put in foreground again by the user. This means that we have to reload
+ *        the WebView.
  *
  *      - For a better UX, we also recommend:
  *          - Only allow orientation portrait (in manifest) or manage orientation changes
@@ -62,15 +67,20 @@ private const val PERMISSIONS_REQUEST_CODE = 1114
 
 private const val TAG = "YdsWebSample"
 private const val SESSION_URL = "<YourYdsURLSessionHere>"
+private const val KEY_IS_VIEW_RECREATED = "MainActivity.KEY_IS_VIEW_RECREATED"
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var cameraCaptureFileUri: Uri
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
 
+    private var isViewRecreated: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        isViewRecreated = savedInstanceState?.getBoolean(KEY_IS_VIEW_RECREATED) ?: false
 
         requestPermissions()
 
@@ -80,7 +90,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
+
+        if (!isViewRecreated && resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 FILE_PICKER_REQUEST_CODE -> {
                     data?.data?.let {
@@ -124,6 +135,11 @@ class MainActivity : AppCompatActivity() {
                 .show()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(KEY_IS_VIEW_RECREATED, true)
+    }
+
     private fun requestPermissions() {
         val permissions = listOf(
                 permission.CAMERA,
@@ -149,6 +165,8 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun WebView.configureForYdsWeb() {
+        WebView.setWebContentsDebuggingEnabled(true)
+
         this.settings.apply {
             javaScriptEnabled = true
             allowFileAccess = true
