@@ -45,8 +45,8 @@ class AccelerometerListener(
             val y = values[1]
             val z = values[2]
             lastShake = currentShake
-            currentShake = sqrt((x * x + y * y + z * z).toDouble()).toFloat()
-            val delta: Float = currentShake - lastShake
+            currentShake = sqrt((x * x + y * y + z * z))
+            val delta = currentShake - lastShake
             shake = shake * 0.9f + delta
             if (shake > 12) {
                 Log.d(TAG, "Shake detected")
