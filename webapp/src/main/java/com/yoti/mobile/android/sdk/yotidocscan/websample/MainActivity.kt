@@ -73,7 +73,7 @@ private const val FINISH_SESSION_URL = "https://www.yoti.com/"
 
 class MainActivity : AppCompatActivity(), SessionConfigurationListener {
 
-    var sessionBotomSheet: SessionBottomSheet? = null
+    private var sessionBottomSheet: SessionBottomSheet? = null
 
     private lateinit var cameraCaptureFileUri: Uri
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
@@ -276,10 +276,10 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
     }
 
     private fun showOptionsDialog() {
-        if (sessionBotomSheet != null) return
+        if (sessionBottomSheet != null) return
 
-        sessionBotomSheet = SessionBottomSheet.newInstance()
-        sessionBotomSheet?.show(
+        sessionBottomSheet = SessionBottomSheet.newInstance()
+        sessionBottomSheet?.show(
                 supportFragmentManager,
                 SessionBottomSheet.FRAGMENT_TAG
         )
@@ -291,6 +291,6 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
     }
 
     override fun onSessionConfigurationDismiss() {
-        sessionBotomSheet = null
+        sessionBottomSheet = null
     }
 }
