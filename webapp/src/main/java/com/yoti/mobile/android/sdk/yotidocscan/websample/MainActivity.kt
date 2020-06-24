@@ -10,10 +10,10 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View.VISIBLE
 import android.webkit.PermissionRequest
 import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AlertDialog
@@ -21,6 +21,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.yoti.mobile.android.sdk.yotidocscan.websample.AccelerometerListener.ShakeListener
+import com.yoti.mobile.android.sdk.yotidocscan.websample.SessionBottomSheet.SessionConfigurationListener
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.text.SimpleDateFormat
@@ -66,15 +68,21 @@ private const val FILE_PICKER_REQUEST_CODE = 1113
 private const val PERMISSIONS_REQUEST_CODE = 1114
 
 private const val TAG = "YdsWebSample"
-private const val SESSION_URL = "<YourYdsURLSessionHere>"
 private const val KEY_IS_VIEW_RECREATED = "MainActivity.KEY_IS_VIEW_RECREATED"
+private const val FINISH_SESSION_URL = "https://www.yoti.com/"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SessionConfigurationListener {
+
+    var sessionBotomSheet: SessionBottomSheet? = null
 
     private lateinit var cameraCaptureFileUri: Uri
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
-
     private var isViewRecreated: Boolean = false
+    private val shakeListener = AccelerometerListener(this, object: ShakeListener {
+        override fun onShake() {
+            showOptionsDialog()
+        }
+    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +93,6 @@ class MainActivity : AppCompatActivity() {
         requestPermissions()
 
         webview.configureForYdsWeb()
-        webview.loadUrl(SESSION_URL)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -105,6 +112,16 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        shakeListener.start()
+    }
+
+    override fun onPause() {
+        shakeListener.stop()
+        super.onPause()
     }
 
     override fun onDestroy() {
@@ -165,7 +182,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun WebView.configureForYdsWeb() {
-        WebView.setWebContentsDebuggingEnabled(true)
+        WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
 
         this.settings.apply {
             javaScriptEnabled = true
@@ -246,21 +263,34 @@ class MainActivity : AppCompatActivity() {
     private inner class YdsWebClient : WebViewClient() {
         // Detect the URL that indicates that YDS flow is finished
         // and close the app
-        override fun shouldOverrideUrlLoading(
-                view: WebView?, request: WebResourceRequest?
-        ): Boolean {
-            if (request?.url?.toString() == "https://www.yoti.com/") {
+        override fun onPageCommitVisible(view: WebView?, url: String?) {
+            super.onPageCommitVisible(view, url)
+            if (url == FINISH_SESSION_URL) {
                 AlertDialog.Builder(this@MainActivity)
                         .setTitle("YDS Session")
-                        .setMessage("Session finished OK")
+                        .setMessage("Session finished")
                         .setPositiveButton("OK") { _, _ -> this@MainActivity.finish() }
                         .show()
-
-                return true
             }
-            request?.url?.toString()?.let { Log.d(TAG, it) }
-
-            return super.shouldOverrideUrlLoading(view, request)
         }
+    }
+
+    private fun showOptionsDialog() {
+        if (sessionBotomSheet != null) return
+
+        sessionBotomSheet = SessionBottomSheet.newInstance()
+        sessionBotomSheet?.show(
+                supportFragmentManager,
+                SessionBottomSheet.FRAGMENT_TAG
+        )
+    }
+
+    override fun onSessionConfigurationSuccess(sessionUrl: String) {
+        webview.visibility = VISIBLE
+        webview.loadUrl(sessionUrl)
+    }
+
+    override fun onSessionConfigurationDismiss() {
+        sessionBotomSheet = null
     }
 }
