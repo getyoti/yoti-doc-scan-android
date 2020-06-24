@@ -36,5 +36,4 @@ dependencies {
     // Multi-module projects: Add this dependency because of Android Studio Issue
     // and androix.navigation dependencies management https://issuetracker.google.com/issues/152245564
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }
