@@ -1,5 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [2.3.0] - 2020-06-26
+### Added
+- Zoom Liveness flow update
 
 ## [2.2.0] - 2020-05-01
 ### Added
