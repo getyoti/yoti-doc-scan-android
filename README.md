@@ -52,10 +52,10 @@ Add modules you require to your build.gradle:
 ```groovy
 dependencies {
     //If you need document capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.3.0'
 
     //If you need liveness
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.3.0'
 }
 ```
 
