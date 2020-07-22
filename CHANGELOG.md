@@ -1,5 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [2.3.1] - 2020-07-21
+### Fixed
+- Solved incompatibility issue with **Firebase Performance gradle plugin**
+
 ## [2.3.0] - 2020-06-26
 ### Changed
 - Zoom Liveness flow update

@@ -52,10 +52,10 @@ Add modules you require to your build.gradle:
 ```groovy
 dependencies {
     //If you need document capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.3.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.3.1'
 
     //If you need liveness
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.3.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.3.1'
 }
 ```
 
@@ -76,13 +76,32 @@ Also you will need to add the following to your app-level build.gradle file, ins
 If you get an error `Unable to find a matching variant of com.yoti.mobile.mpp:mrtddump-android`, you should also add
 ```groovy
     android {
+        ...
         buildTypes {
+            ...
             debug {
+                ...
                 matchingFallbacks = ['release']
             }
          }
     }
-``` 
+```
+
+And if you're using [Firebase performance gradle Plugin](https://firebase.google.com/docs/perf-mon/disable-sdk?platform=android), you'll need to disable it for debug build variant:
+```groovy
+    android {
+        ...
+        buildTypes {
+            ...
+            debug {
+                ...
+                FirebasePerformance {
+                    instrumentationEnabled false
+                }
+            }
+         }
+    }
+```
 
 ### Proguard
 If you are using Proguard, you will need to add the following lines in its configuration file:
