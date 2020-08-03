@@ -1,5 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [2.3.2] - 2020-08-03
+### Added
+- Support Filipino Professional ID & Voter ID
+### Fixed
+- Solved NFC brand new passport reading issue
+- Solved TimeZone issue when retrieving OCR data
+
 ## [2.3.1] - 2020-07-21
 ### Fixed
 - Solved incompatibility issue with **Firebase Performance gradle plugin**
