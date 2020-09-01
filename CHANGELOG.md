@@ -1,5 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [2.4.0] - 2020-09-23
+### Added
+- Supplementary documents functionality: Integrators will now be able to verify the user's address by supplementary documents module integration.
+Documents supported: Utility Bill, Council Tax Bill & Phone Bill.
+- New ID documents supported: Filipino Professional ID & Voter ID
+
 ## [2.3.2] - 2020-08-03
 ### Added
 - Support Filipino Professional ID & Voter ID

@@ -52,10 +52,13 @@ Add modules you require to your build.gradle:
 ```groovy
 dependencies {
     //If you need document capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.3.2'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.4.0'
+    
+    //If you need supplementary documents
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:2.4.0'
 
     //If you need liveness
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.3.2'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.4.0'
 }
 ```
 
@@ -187,6 +190,8 @@ class MainActivity : AppCompatActivity() {
 | 5006              | Unexpected liveness error          | No |
 | 6000              | Document Capture dependency not found error          | No |
 | 6001              | Liveness Zoom dependency not found error          | No |
+| 6002              | Supplementary document dependency not found error          | No |
+
 
 ## Customisation
 You can customise the appearance of the screens of the SDK by overriding some of the colours.
