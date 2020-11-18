@@ -52,13 +52,13 @@ Add modules you require to your build.gradle:
 ```groovy
 dependencies {
     //If you need document capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.4.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.5.0'
     
     //If you need supplementary documents
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:2.4.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:2.5.0'
 
     //If you need liveness
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.4.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.5.0'
 }
 ```
 
@@ -142,6 +142,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 }
+```
+
+By default Activity request code is 9001 and you can handle it in `onActivityResult` by checking `YOTI_SDK_REQUEST_CODE`, but if you prefer to customise it, it is possible by specifying it in the `start` method:
+```kotlin
+            yotiSdk.setSessionId("<Your Session ID>")
+                    .setSessionToken("<Your Session Token>")
+                    .start(this, <MyRequestCode>)
 ```
 
 ## Retrieve status of the session

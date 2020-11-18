@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             val success = yotiSdk
                 .setSessionId(edSessionId.text.toString())
                 .setClientSessionToken(edTokenId.text.toString())
-                .start(this)
+                .start(this) // Custom request code .start(this, 8888)
             if (!success) {
                 showSessionStatus()
             }
