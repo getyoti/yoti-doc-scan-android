@@ -1,6 +1,9 @@
 ![YotiBanner](./yoti_banner.png)
 
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/getyoti/yoti-doc-scan-android?label=latest%20release)](https://github.com/getyoti/yoti-doc-scan-android/releases)
+
 ## Yoti Doc Scan - Android SDK
+
 Yoti is an identity checking platform that allows organisations to verify who people are, online and in person.
 The Yoti SDK, allows the user to take a photo of their ID, we then verify this instantly and prepare a response, which your system can then retrieve on your hosted site.
 Further information can be found [here](https://developers.yoti.com/yoti-doc-scan)
@@ -146,9 +149,10 @@ class MainActivity : AppCompatActivity() {
 
 By default Activity request code is 9001 and you can handle it in `onActivityResult` by checking `YOTI_SDK_REQUEST_CODE`, but if you prefer to customise it, it is possible by specifying it in the `start` method:
 ```kotlin
-            yotiSdk.setSessionId("<Your Session ID>")
+            yotiSdk
+                    .setSessionId("<Your Session ID>")
                     .setSessionToken("<Your Session Token>")
-                    .start(this, <MyRequestCode>)
+                    .start(this, <Your Request Code>)
 ```
 
 ## Retrieve status of the session
