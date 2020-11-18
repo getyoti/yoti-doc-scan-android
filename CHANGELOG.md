@@ -1,5 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [2.5.0] - 2020-11-19
+### Added
+- Biometric consent request: Integrators will now be able to ask for the biometric consent before liveness check.
+- YotiSDK Activity request code customisation.
+- Canada Service setup.
+
 ## [2.4.0] - 2020-09-23
 ### Added
 - Supplementary documents functionality: Integrators will now be able to verify the user's address by supplementary documents module integration.
