@@ -1,9 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
-## [2.5.0] - 2020-11-19
+## [2.5.1] - 2020-11-19
+### Added
+- YotiSDK Activity request code customisation.
+
+## [2.5.0] - 2020-11-18
 ### Added
 - Biometric consent request: Integrators will now be able to ask for the biometric consent before liveness check.
-- YotiSDK Activity request code customisation.
 - Canada Service setup.
 
 ## [2.4.0] - 2020-09-23
