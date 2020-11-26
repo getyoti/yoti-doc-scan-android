@@ -9,11 +9,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View.VISIBLE
 import android.webkit.PermissionRequest
 import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
+import android.webkit.WebChromeClient.FileChooserParams
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AlertDialog
@@ -63,8 +63,7 @@ import java.util.Locale
  *          - Use a NoActionBar theme
  *          - Manage back navigation: users can press back hardware button and exit from the flow
  */
-private const val CAMERA_REQUEST_CODE = 1112
-private const val FILE_PICKER_REQUEST_CODE = 1113
+private const val CAPTURE_REQUEST_CODE = 1112
 private const val PERMISSIONS_REQUEST_CODE = 1114
 
 private const val TAG = "YdsWebSample"
@@ -84,6 +83,12 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
         }
     })
 
+    private val mimeTypeMap = mapOf(
+            ".pdf" to "application/pdf",
+            ".png" to "image/png",
+            ".jpg" to "image/jpeg"
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -98,20 +103,15 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (!isViewRecreated && resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                FILE_PICKER_REQUEST_CODE -> {
-                    data?.data?.let {
-                        Log.d(TAG, "Receive file result $it")
-                        filePathCallback?.onReceiveValue(arrayOf(it))
-                    }
-                }
-                CAMERA_REQUEST_CODE -> {
-                    Log.d(TAG, "Receive camera result $cameraCaptureFileUri")
-                    filePathCallback?.onReceiveValue(arrayOf(cameraCaptureFileUri))
-                }
+        if (requestCode == CAPTURE_REQUEST_CODE) {
+            if (!isViewRecreated && resultCode == Activity.RESULT_OK) {
+                val resultUri = data?.data ?: cameraCaptureFileUri
+                filePathCallback?.onReceiveValue(arrayOf(resultUri))
+            } else {
+                filePathCallback?.onReceiveValue(null)
             }
         }
+
     }
 
     override fun onResume() {
@@ -192,33 +192,41 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
             javaScriptCanOpenWindowsAutomatically = true
             mediaPlaybackRequiresUserGesture = false
             setAppCacheEnabled(true)
+
         }
         this.webViewClient = YdsWebClient()
         this.webChromeClient = YdsWebChromeClient()
     }
 
-    private fun launchCamera() {
-        Log.d(TAG, "Launch Camera intent")
+    private fun showCameraAndFilePickerChooser(fileChooserParams: FileChooserParams) {
+
         cameraCaptureFileUri = createFileUri()
 
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                .setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                .putExtra(MediaStore.EXTRA_OUTPUT, cameraCaptureFileUri)
-
-        startActivityForResult(Intent.createChooser(cameraIntent, "Select a picture"), CAMERA_REQUEST_CODE)
+        Intent.createChooser(createFilePickerIntent(fileChooserParams), fileChooserParams.title)
+                .run {
+                    putExtra(
+                            Intent.EXTRA_INITIAL_INTENTS,
+                            listOf(createCameraIntent(cameraCaptureFileUri)).toTypedArray()
+                    )
+                    startActivityForResult(this, CAPTURE_REQUEST_CODE)
+                }
     }
 
-    private fun launchImagePicker() {
-        Log.d(TAG, "Launch file picker intent")
-        val filePickerIntent = Intent()
-                .setType("image/*")
-                .addCategory(Intent.CATEGORY_OPENABLE)
-                .setAction(Intent.ACTION_GET_CONTENT)
+    private fun createFilePickerIntent(params: FileChooserParams): Intent? {
+        return params.createIntent()?.apply {
+            type = "*/*"
+            putExtra(
+                    Intent.EXTRA_MIME_TYPES,
+                    params.acceptTypes?.map { mimeTypeMap[it] }!!.filterNotNull().toTypedArray()
+            )
+        }
+    }
 
-        startActivityForResult(
-                Intent.createChooser(filePickerIntent, "Select a file"),
-                FILE_PICKER_REQUEST_CODE
-        )
+    private fun createCameraIntent(outputFile: Uri): Intent {
+        return Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            putExtra(MediaStore.EXTRA_OUTPUT, outputFile)
+        }
     }
 
     /**
@@ -248,10 +256,12 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
         ): Boolean {
             this@MainActivity.filePathCallback = filePathCallback
 
-            if (fileChooserParams?.isCaptureEnabled == true) launchCamera()
-            else launchImagePicker()
-
-            return true
+            return if (fileChooserParams?.mode == FileChooserParams.MODE_OPEN) {
+                showCameraAndFilePickerChooser(fileChooserParams)
+                true
+            } else {
+                false
+            }
         }
 
         // Grant permission requested
