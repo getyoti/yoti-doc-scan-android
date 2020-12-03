@@ -232,6 +232,11 @@ In order to change the colours of the different elements of the screens you just
 <color name="yoti_sdk_colorAccentPressed">#AA164A</color>
 <color name="yoti_sdk_colorAccentDisabled">#F8B3CB</color>
 ```
+## Reducing the size of your APK
+We recommend that you distribute your app using [App Bundle](https://developer.android.com/platform/technology/app-bundle). This new Google Play feature allows you to use [Play Feature delivery](https://developer.android.com/guide/app-bundle/play-feature-delivery#customize_delivery) which uses advanced capabilities of app bundles, allowing certain features of your app to be delivered conditionally or downloaded on demand.
+App Bundle also defer apk generation to Google Play, allowing it to generate minimal APK for each specific device that downloads your app, including only required processor architecture support. 
+
+Also, don't forget to [shrink, obfuscate and optimize](https://developer.android.com/studio/build/shrink-code) your app.  
 
 ## Support
 If you have any other questions please do not hesitate to contact sdksupport@yoti.com.
