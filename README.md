@@ -199,6 +199,7 @@ class MainActivity : AppCompatActivity() {
 | 5004              | Unexpected internal error          | No |
 | 5005              | Unexpected document scanning error          | No |
 | 5006              | Unexpected liveness error          | No |
+| 5009              | Storage Error: could not read/write on device app cache          | No |
 | 6000              | Document Capture dependency not found error          | No |
 | 6001              | Liveness Zoom dependency not found error          | No |
 | 6002              | Supplementary document dependency not found error          | No |
