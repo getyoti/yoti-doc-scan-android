@@ -245,3 +245,8 @@ Once we have answered your question we may contact you again to discuss Yoti pro
 
 ## License
 Yoti Doc Scan Android SDK is under a Proprietary License see this [link](https://www.yoti.com/wp-content/uploads/2019/08/Yoti-Doc-Scan-SDK-Terms.pdf) for more information
+
+We also list all open-source licensed software that has been incorporated into the SDK on files inside `.aar`.
+- res/raw/yds_identity_verification_licenses_core.json
+- res/raw/yds_identity_verification_licenses_id_document.json
+- res/raw/yds_identity_verification_licenses_supplementary_document.json
