@@ -1,5 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [2.6.0] - 2021-03-05
+### Added
+- Support for custom privacy policy link.
+- Support third party identity check when it is required.
+- Multi page PDF viewer.
+- Error management: return error code 5009 when it is not possible to write/read device cache (storage error)
+- New documents supported: NEXUS Card and Bank Statement.
+
 ## [2.5.1] - 2020-11-19
 ### Added
 - YotiSDK Activity request code customisation.

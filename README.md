@@ -55,13 +55,13 @@ Add modules you require to your build.gradle:
 ```groovy
 dependencies {
     //If you need document capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.5.1'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.6.0'
     
     //If you need supplementary documents
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:2.5.1'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:2.6.0'
 
     //If you need liveness
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.5.1'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.6.0'
 }
 ```
 
@@ -199,6 +199,7 @@ class MainActivity : AppCompatActivity() {
 | 5004              | Unexpected internal error          | No |
 | 5005              | Unexpected document scanning error          | No |
 | 5006              | Unexpected liveness error          | No |
+| 5009              | Storage Error: could not read/write on device app cache          | No |
 | 6000              | Document Capture dependency not found error          | No |
 | 6001              | Liveness Zoom dependency not found error          | No |
 | 6002              | Supplementary document dependency not found error          | No |
@@ -244,3 +245,8 @@ Once we have answered your question we may contact you again to discuss Yoti pro
 
 ## License
 Yoti Doc Scan Android SDK is under a Proprietary License see this [link](https://www.yoti.com/wp-content/uploads/2019/08/Yoti-Doc-Scan-SDK-Terms.pdf) for more information
+
+We also list all open-source licensed software that has been incorporated into the SDK on files inside `.aar`.
+- res/raw/yds_identity_verification_licenses_core.json
+- res/raw/yds_identity_verification_licenses_id_document.json
+- res/raw/yds_identity_verification_licenses_supplementary_document.json
