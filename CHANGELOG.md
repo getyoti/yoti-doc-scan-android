@@ -1,6 +1,6 @@
 # Changelog
 All notable changes to this project will be documented in this file.
-## [2.6.0] - 2021-12-26
+## [2.6.0] - 2021-03-05
 ### Added
 - Support for custom privacy policy link.
 - Support third party identity check when it is required.
