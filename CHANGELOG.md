@@ -1,5 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [2.6.1] - 2021-03-24
+### Fixed
+- Solved issue happened in some sessions.
+
 ## [2.6.0] - 2021-03-05
 ### Added
 - Support for custom privacy policy link.
