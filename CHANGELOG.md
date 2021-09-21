@@ -1,5 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [2.7.0] - 2021-09-21
+### Added
+- New verification step: Face capture. With it users can provide a selfie of themselves for face match check (ID document photo vs face capture) 
+- In Session Feedback: users will receive immediate feedback about the ID document capture quality and validation.
+
 ## [2.6.1] - 2021-03-24
 ### Fixed
 - Solved issue happened in some sessions.

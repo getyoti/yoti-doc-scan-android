@@ -11,7 +11,7 @@ Further information can be found [here](https://developers.yoti.com/yoti-doc-sca
 ## Table of Contents
 - [Requirements](#requirements)
 - [Set up the SDK](#setup-the-sdk)
-    - [Proguard](#proguard)
+    - [R8 / Proguard](#r8-and-proguard)
 - [Start the SDK](#start-the-sdk)
 - [Retrieve status of the session](#retrieve-status-of-the-session)
     - [Possible status for the session](#possible-status-for-the-session)
@@ -26,7 +26,7 @@ You have setup the Yoti Doc Scan SDK on your backend, you can find the documenta
 
 Minimum Android version supported: 21
 
-Currently targeting Android version: 29
+Currently targeting Android version: 30
 
 Note: we are using libraries from Android Jetpack. If you are still using the original Android Support Libraries you may encounter some issues when trying to use our SDK.
 We strongly recommend you to migrate your app to the new Androidx libraries: https://developer.android.com/jetpack/androidx/migrate
@@ -55,13 +55,16 @@ Add modules you require to your build.gradle:
 ```groovy
 dependencies {
     //If you need document capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.6.1'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.7.0'
     
     //If you need supplementary documents
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:2.6.1'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:2.7.0'
 
     //If you need liveness
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.6.1'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.7.0'
+    
+    //If you need selfie capture
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:2.7.0'
 }
 ```
 
@@ -109,17 +112,12 @@ And if you're using [Firebase performance gradle Plugin](https://firebase.google
     }
 ```
 
-### Proguard
-If you are using Proguard, you will need to add the following lines in its configuration file:
+### R8 and Proguard
 
-```
--keep class com.yoti.** { *; }
--keep class com.microblink.** { *; }
--keep class com.microblink.**$* { *; }
--dontwarn com.microblink.**
--keep class com.facetec.zoom.** { *; }
--dontwarn javax.annotation.Nullable
-```
+If you are using R8 the shrinking and obfuscation rules are included automatically.
+
+ProGuard users must manually add the options from [proguard-rules.pro](https://github.com/getyoti/yoti-doc-scan-android/blob/master/app/proguard-rules.pro). 
+You might also need rules for [retrofit](https://github.com/square/retrofit/blob/5c6620/retrofit/src/main/resources/META-INF/proguard/retrofit2.pro), [OkHttp](https://github.com/square/okhttp/blob/a16ec15/okhttp/src/main/resources/META-INF/proguard/okhttp3.pro), [Okio](https://github.com/square/okio/blob/f906821e6/okio/src/jvmMain/resources/META-INF/proguard/okio.pro) and [Gson](https://github.com/google/gson/blob/master/examples/android-proguard-example/proguard.cfg) which are dependencies of this library.
 
 ## Start the SDK
 
@@ -203,6 +201,7 @@ class MainActivity : AppCompatActivity() {
 | 6000              | Document Capture dependency not found error          | No |
 | 6001              | Liveness Zoom dependency not found error          | No |
 | 6002              | Supplementary document dependency not found error          | No |
+| 6003              | Face Capture dependency not found error          | No |
 
 
 ## Customisation
