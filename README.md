@@ -55,16 +55,16 @@ Add modules you require to your build.gradle:
 ```groovy
 dependencies {
     //If you need document capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.7.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.8.1'
     
     //If you need supplementary documents
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:2.7.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:2.8.1'
 
     //If you need liveness
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.7.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.8.1'
     
     //If you need selfie capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:2.7.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:2.8.1'
 }
 ```
 
@@ -191,6 +191,7 @@ class MainActivity : AppCompatActivity() {
 | 3001              | An error occurred during a network request          | Yes |
 | 3002              | User has no network          | Yes |
 | 4000              | The user did not grant permissions to the camera          | Yes |
+| 4001              | User Wrong submission          | Yes |
 | 5000              | No camera (when user's camera was not found and file upload is not allowed)          | No |
 | 5002              | No more local tries for the liveness flow          | Yes |
 | 5003              | SDK is out-of-date - please update the SDK to the latest version          | No |
