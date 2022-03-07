@@ -23,7 +23,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.yoti.mobile.android.sdk.yotidocscan.websample.AccelerometerListener.ShakeListener
 import com.yoti.mobile.android.sdk.yotidocscan.websample.SessionBottomSheet.SessionConfigurationListener
-import kotlinx.android.synthetic.main.activity_main.*
+import com.yoti.mobile.android.sdk.yotidocscan.websample.databinding.ActivityMainBinding
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -66,7 +66,6 @@ import java.util.Locale
 private const val CAPTURE_REQUEST_CODE = 1112
 private const val PERMISSIONS_REQUEST_CODE = 1114
 
-private const val TAG = "YdsWebSample"
 private const val KEY_IS_VIEW_RECREATED = "MainActivity.KEY_IS_VIEW_RECREATED"
 private const val FINISH_SESSION_URL = "https://www.yoti.com/"
 
@@ -89,15 +88,19 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
             ".jpg" to "image/jpeg"
     )
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         isViewRecreated = savedInstanceState?.getBoolean(KEY_IS_VIEW_RECREATED) ?: false
 
         requestPermissions()
 
-        webview.configureForYdsWeb()
+        binding.webview.configureForYdsWeb()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -125,7 +128,7 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
     }
 
     override fun onDestroy() {
-        webview.destroy()
+        binding.webview.destroy()
         super.onDestroy()
     }
 
@@ -296,8 +299,10 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
     }
 
     override fun onSessionConfigurationSuccess(sessionUrl: String) {
-        webview.visibility = VISIBLE
-        webview.loadUrl(sessionUrl)
+        with(binding) {
+            webview.visibility = VISIBLE
+            webview.loadUrl(sessionUrl)
+        }
     }
 
     override fun onSessionConfigurationDismiss() {

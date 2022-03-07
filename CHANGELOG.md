@@ -1,5 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [2.8.1] - 2022-03-07
+### Fixed
+- Manifest merge issue solved.
+
+## [2.8.0] - 2022-03-02
+## Critical issue detected on this version (Manifest merge issue on client side), please use 2.8.1
+### Added
+- Support for Filipino Phil Sys ID & UMID.
+- Support for Young Scot Card.  
+- Improvements on document upload feedback: quality error detection. 
+- Improvements on NFC scan flow.  
+
 ## [2.7.0] - 2021-09-21
 ### Added
 - New verification step: Face capture. With it users can provide a selfie of themselves for face match check (ID document photo vs face capture) 
