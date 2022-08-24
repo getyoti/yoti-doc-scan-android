@@ -7,8 +7,8 @@ android {
         applicationId "com.yoti.mobile.android.sdk.yotidocscan.sample"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 281
-        versionName "2.8.1"
+        versionCode 290
+        versionName "2.9.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -46,8 +46,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.core:core-ktx:1.7.0'
 
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.8.1'
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:2.8.1'
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.8.1'
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:2.8.1'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.9.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:2.9.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.9.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:2.9.0'
 }

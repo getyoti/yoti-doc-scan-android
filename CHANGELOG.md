@@ -1,5 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [2.9.0] - 2022-08-24
+### Added
+- Handle retry when liveness check fails due to user error
+- Update biometric consent copy
+- Improve in-session feedback handling
+- Add "Front/Back" tabs for 2-sided documents on in-session feedback screens
+- In-session feedback for expired documents
+- Provide user guidance when we can't process pdf uploaded as a supplementary document
+- Handle USA Permanent Residence card
+- Introduce a new error screen for supplementary document pdf upload
+- Bug fixes
+
 ## [2.8.1] - 2022-03-07
 ### Fixed
 - Manifest merge issue solved.
