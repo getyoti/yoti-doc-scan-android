@@ -1,5 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [2.9.1] - 2022-11-04
+### Changed
+- Hotfix: document scan ocr extraction
+
 ## [2.9.0] - 2022-08-24
 ### Added
 - Handle retry when liveness check fails due to user error
