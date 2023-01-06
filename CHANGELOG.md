@@ -1,5 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [2.9.3] - 2023-01-05
+### Changed
+- Hotfix: document scan navigation flow
+
 ## [2.9.2] - 2022-12-22
 ### Changed
 - Hotfix: document scan navigation flow
