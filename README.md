@@ -26,7 +26,7 @@ You have setup the Yoti Doc Scan SDK on your backend, you can find the documenta
 
 Minimum Android version supported: 21
 
-Currently targeting Android version: 30
+Currently targeting Android version: 32
 
 Note: we are using libraries from Android Jetpack. If you are still using the original Android Support Libraries you may encounter some issues when trying to use our SDK.
 We strongly recommend you to migrate your app to the new Androidx libraries: https://developer.android.com/jetpack/androidx/migrate
@@ -55,17 +55,32 @@ Add modules you require to your build.gradle:
 ```groovy
 dependencies {
     //If you need document capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:2.9.3'
-    
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:3.0.0'
+
     //If you need supplementary documents
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:2.9.3'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:3.0.0'
 
     //If you need liveness
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:2.9.3'
-    
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:3.0.0'
+
     //If you need selfie capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:2.9.3'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:3.0.0'
+    //Or if you want the version without an embedded AI model, which is ~20 MB smaller in size
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:3.0.0'
 }
+```
+
+As you can see above, there are two options to add the `facecapture` module to your app:
+- `yoti-sdk-facecapture` embeds an AI model for face detection.
+- `yoti-sdk-facecapture-unbundled` will manage the download of the AI model via Google Play Services the first time you start using the AI model and thus is ~20 MB smaller in size. Additionally, you can add the following metadata to your `AndroidManifest.xml` to get the model downloaded as soon as the app is installed:
+```
+<application ...>
+  ...
+  <meta-data
+      android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+      android:value="face" />
+
+</application>
 ```
 
 Also you will need to add the following to your app-level build.gradle file, inside your Android block:
@@ -184,12 +199,41 @@ class MainActivity : AppCompatActivity() {
 | 5004              | Unexpected internal error          | No |
 | 5005              | Unexpected document scanning error          | No |
 | 5006              | Unexpected liveness error          | No |
+| 5008              | Unsupported configuration          | No |
 | 5009              | Storage Error: could not read/write on device app cache          | No |
 | 6000              | Document Capture dependency not found error          | No |
 | 6001              | Liveness Zoom dependency not found error          | No |
 | 6002              | Supplementary document dependency not found error          | No |
 | 6003              | Face Capture dependency not found error          | No |
+| 7000              | The user does not have the required documents to complete the session          | No |
 
+
+## Supported languages
+Our SDK supports the 9 languages listed in the table below:
+
+Language | Code
+:-- | :--
+Arabic | ar
+Dutch | nl
+English (default) | en
+French | fr
+German | de
+Italian | it
+Russian | ru
+Spanish | es
+Turkish | tr
+
+The default language we use is English, meaning that if your app supports any extra languages matching the one from the phone's settings, the SDK will fallback to English.
+
+If your app does not support one or more languages from the above table and the phone is set to such a language, in order to avoid situations where our SDK would be shown in a different language than the one your app is using, you need to declare the languages your app supports. You can achieve this by adding the following to your `app/build.gradle` file:
+```
+android {
+    defaultConfig {
+        resConfigs "en", "es", "it" // order does not matter, just add all your supported languages here
+    }
+}
+```
+Apart from helping you avoid issues such as the one outlined above, this will strip away all language related resources except for those in the specified list. Thus, you avoid resource contamination and it makes your app smaller in size.
 
 ## Customisation
 You can customise the appearance of the screens of the SDK by overriding some of the colours.
