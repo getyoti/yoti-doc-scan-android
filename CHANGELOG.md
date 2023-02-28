@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - General improvements and bug fixes
 - Updated Kotlin version to 1.6.21
+- Updated proguard rules
 
 ### Migrating from 2.x.x
 - Update the version of the Yoti SDK dependencies in your build.gradle file
