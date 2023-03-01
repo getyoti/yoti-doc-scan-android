@@ -1,5 +1,23 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [3.0.0] - 2023-02-27
+### Added
+- New language support for Arabic, Dutch, French, German, Italian, Russian, Spanish and Turkish
+- New session statuses for UNSUPPORTED_CONFIGURATION and MANDATORY_DOCUMENT_NOT_PROVIDED
+- New alternative version of the facecapture module without an embedded AI model, which is ~20 MB smaller in size
+
+### Changed
+- General improvements and bug fixes
+- Updated Kotlin version to 1.6.21
+- Updated proguard rules
+
+### Migrating from 2.x.x
+- Update the version of the Yoti SDK dependencies in your build.gradle file
+- Update your project's Kotlin version to 1.6 or newer
+- OPTIONAL: If you use yoti-sdk-facecapture, consider the new alternative yoti-sdk-facecapture-unbundled, without an embedded AI model, ~20 MB smaller in size (see README for details)
+- OPTIONAL: If you want to avoid situations where our SDK would be shown in a different language than the one your app is using, you need to declare the languages your app supports (see README for details)
+- OPTIONAL: Handle the new session status codes outlined above and in the README
+
 ## [2.9.3] - 2023-01-05
 ### Changed
 - Hotfix: document scan navigation flow
