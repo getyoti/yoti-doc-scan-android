@@ -225,6 +225,8 @@ Turkish | tr
 
 The default language we use is English, meaning that if your app supports any extra languages matching the one from the phone's settings, the SDK will fallback to English.
 
+Since we also support Arabic, which is a right-to-left (RTL) language, you will need to add the `android:supportsRtl="true"` attribute to your `application` inside your `AndroidManifest.xml` file to ensure that the layout and text direction are correct, regardless of what languages your app supports.
+
 If your app does not support one or more languages from the above table and the phone is set to such a language, in order to avoid situations where our SDK would be shown in a different language than the one your app is using, you need to declare the languages your app supports. You can achieve this by adding the following to your `app/build.gradle` file:
 ```
 android {
