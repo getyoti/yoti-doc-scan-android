@@ -1,5 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [3.0.1] - 2023-04-03
+### Changed
+Hotfix: Removed unused resources
+
 ## [3.0.0] - 2023-02-27
 ### Added
 - New language support for Arabic, Dutch, French, German, Italian, Russian, Spanish and Turkish
