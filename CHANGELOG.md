@@ -1,5 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [3.1.0] - 2023-05-18
+### Added
+- New document types supported: CitizenCard, Post Office PASS Card, SCIS and Canadian Health card
+
+### Changed
+- Updated the copy on the dead end screens.
+- Changed the label for Canadian residence permit.
+- General bug fixes and code improvements.
+
 ## [3.0.1] - 2023-04-03
 ### Changed
 Hotfix: Removed unused resources
