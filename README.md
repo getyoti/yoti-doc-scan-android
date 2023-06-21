@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
         startButton.setOnClickListener {
             yotiSdk
                     .setSessionId("<Your Session ID>")
-                    .setSessionToken("<Your Session Token>")
+                    .setClientSessionToken("<Your Session Token>")
                     .start(this)
         }
 
@@ -150,7 +150,7 @@ By default Activity request code is 9001 and you can handle it in `onActivityRes
 ```kotlin
             yotiSdk
                     .setSessionId("<Your Session ID>")
-                    .setSessionToken("<Your Session Token>")
+                    .setClientSessionToken("<Your Session Token>")
                     .start(this, <Your Request Code>)
 ```
 
