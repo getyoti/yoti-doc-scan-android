@@ -1,5 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [3.1.1] - 2023-07-12
+### Changed
+- General bug fixes.
+
 ## [3.1.0] - 2023-05-18
 ### Added
 - New document types supported: CitizenCard, Post Office PASS Card, SCIS and Canadian Health card
