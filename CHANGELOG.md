@@ -1,5 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [3.2.0] - 2023-10-19
+### Added
+- Implemented font type customisation.
+- Added search functionality to the issuing country search.
+- Allow retention logic in the biometric consent.
+
+### Changed
+- Improved the supplementary document guidelines screen.
+- Updated the biometric consent screen copy.
+- Updated the copy on Italian national ID.
+- Bug fixes and code improvements
+
 ## [3.1.1] - 2023-07-12
 ### Changed
 - General bug fixes.
