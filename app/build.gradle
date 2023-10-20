@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     defaultConfig {
         applicationId "com.yoti.mobile.android.sdk.yotidocscan.sample"
         minSdkVersion 21
-        targetSdkVersion 31
-        versionCode 311
-        versionName "3.1.1"
+        targetSdkVersion 32
+        versionCode 320
+        versionName "3.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -46,11 +46,11 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.core:core-ktx:1.7.0'
 
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:3.1.1'
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:3.1.1'
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:3.1.1'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:3.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:3.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:3.2.0'
 //    Version with an embedded AI model
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:3.1.1'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:3.2.0'
 //    Alternative version without an embedded AI model, ~20 MB smaller in size
-//    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:3.1.1'
+//    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:3.2.0'
 }

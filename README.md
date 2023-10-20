@@ -55,18 +55,18 @@ Add modules you require to your build.gradle:
 ```groovy
 dependencies {
     //If you need document capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:3.1.1'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:3.2.0'
 
     //If you need supplementary documents
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:3.1.1'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:3.2.0'
 
     //If you need liveness
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:3.1.1'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:3.2.0'
 
     //If you need selfie capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:3.1.1'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:3.2.0'
     //Or if you want the version without an embedded AI model, which is ~20 MB smaller in size
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:3.1.1'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:3.2.0'
 }
 ```
 
@@ -239,6 +239,16 @@ Apart from helping you avoid issues such as the one outlined above, this will st
 
 ## Customisation
 You can customise the appearance of the screens of the SDK by overriding some of the colours.
+
+### Font type
+In order to change the font type you need to:
+1. Add your own font type .tff files to res/font, 3 files in total for bold, regular and medium
+2. Declare three resource items of type font (which will override the ones declared in the SDK):
+```
+<item name="yoti_sdk_fontStyleBold" type="font">@font/your-font-bold</item>
+<item name="yoti_sdk_fontStyleRegular" type="font">@font/your-font-regular</item>
+<item name="yoti_sdk_fontStyleMedium" type="font">>@font/your-font-medium</item>
+```
 
 ### Font Colour
 In order to change the font colour you just need to override the following colour:
