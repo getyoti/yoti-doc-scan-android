@@ -1,5 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [3.2.1] - 2023-11-14
+### Changed
+- Updated internal dependency version.
+
 ## [3.2.0] - 2023-10-19
 ### Added
 - Implemented font type customisation.

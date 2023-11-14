@@ -55,18 +55,18 @@ Add modules you require to your build.gradle:
 ```groovy
 dependencies {
     //If you need document capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:3.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:3.2.1'
 
     //If you need supplementary documents
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:3.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:3.2.1'
 
     //If you need liveness
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:3.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:3.2.1'
 
     //If you need selfie capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:3.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:3.2.1'
     //Or if you want the version without an embedded AI model, which is ~20 MB smaller in size
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:3.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:3.2.1'
 }
 ```
 
@@ -276,10 +276,20 @@ In order to change the colours of the different elements of the screens you just
 <color name="yoti_sdk_colorAccentDisabled">#F8B3CB</color>
 ```
 ## Reducing the size of your APK
-We recommend that you distribute your app using [App Bundle](https://developer.android.com/platform/technology/app-bundle). This new Google Play feature allows you to use [Play Feature delivery](https://developer.android.com/guide/app-bundle/play-feature-delivery#customize_delivery) which uses advanced capabilities of app bundles, allowing certain features of your app to be delivered conditionally or downloaded on demand.
+We recommend that you distribute your app using [App Bundle](https://developer.android.com/guide/app-bundle). This new Google Play feature allows you to use [Play Feature delivery](https://developer.android.com/guide/app-bundle/play-feature-delivery#customize_delivery) which uses advanced capabilities of app bundles, allowing certain features of your app to be delivered conditionally or downloaded on demand.
 App Bundle also defer apk generation to Google Play, allowing it to generate minimal APK for each specific device that downloads your app, including only required processor architecture support. 
 
 Also, don't forget to [shrink, obfuscate and optimize](https://developer.android.com/studio/build/shrink-code) your app.  
+
+## Troubleshooting
+If you are using the `yoti-sdk-liveness-zoom` module together with the [App Bundle](https://developer.android.com/guide/app-bundle) publishing format, you might encounter the following runtime exception when attempting to open the scan screen:
+```
+Native library failed to load: null
+```
+This is caused by a third party library we use. Disabling uncompressed native libraries inside your project's `gradle.properties` file solves the issue:
+```
+android.bundle.enableUncompressedNativeLibs = false
+```
 
 ## Support
 If you have any other questions please do not hesitate to contact clientsupport@yoti.com.
