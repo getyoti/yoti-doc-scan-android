@@ -286,9 +286,15 @@ If you are using the `yoti-sdk-liveness-zoom` module together with the [App Bund
 ```
 Native library failed to load: null
 ```
-This is caused by a third party library we use. Disabling uncompressed native libraries inside your project's `gradle.properties` file solves the issue:
+This is caused by a third party library we use. To fix it, you can try adding the following to your `build.gradle` file:
 ```
-android.bundle.enableUncompressedNativeLibs = false
+android {
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+}
 ```
 
 ## Support
