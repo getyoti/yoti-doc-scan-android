@@ -1,5 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [3.2.2] - 2024-01-31
+### Changed
+- Updated licence keys.
+- Updated proguard rules.
+- Bug fixes and code improvements.
+
 ## [3.2.1] - 2023-11-14
 ### Changed
 - Updated internal dependency version.
