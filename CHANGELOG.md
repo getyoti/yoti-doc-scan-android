@@ -1,5 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [3.3.0] - 2024-04-24
+## Added
+- New dialogue for slow internet timeouts
+
+### Changed
+- Updated the document selection, capture, guidelines, and review screens
+- Updated the biometric consent screen
+- Updated the label for Israeli National ID
+- Updated Facetec to v9.6.78
+- Bug fixes and code improvements
+
 ## [3.2.2] - 2024-01-31
 ### Changed
 - Updated licence keys.
