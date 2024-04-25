@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 - Updated the document selection, capture, guidelines, and review screens
 - Updated the biometric consent screen
 - Updated the label for Israeli National ID
-- Updated Facetec to v9.6.78
+- Updated Facetec to v9.6.79
 - Bug fixes and code improvements
 
 ## [3.2.2] - 2024-01-31
