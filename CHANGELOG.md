@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 ## [3.3.0] - 2024-04-24
 ## Added
-- New dialogue for slow internet timeouts
+- New dialog for slow internet timeouts
 
 ### Changed
 - Updated the document selection, capture, guidelines, and review screens
