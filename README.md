@@ -26,7 +26,7 @@ You have setup the Yoti Doc Scan SDK on your backend, you can find the documenta
 
 Minimum Android version supported: 21
 
-Currently targeting Android version: 32
+Currently targeting Android version: 33
 
 Note: we are using libraries from Android Jetpack. If you are still using the original Android Support Libraries you may encounter some issues when trying to use our SDK.
 We strongly recommend you to migrate your app to the new Androidx libraries: https://developer.android.com/jetpack/androidx/migrate
@@ -55,18 +55,18 @@ Add modules you require to your build.gradle:
 ```groovy
 dependencies {
     //If you need document capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:3.2.2'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:3.3.0'
 
     //If you need supplementary documents
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:3.2.2'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:3.3.0'
 
     //If you need liveness
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:3.2.2'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:3.3.0'
 
     //If you need selfie capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:3.2.2'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:3.3.0'
     //Or if you want the version without an embedded AI model, which is ~20 MB smaller in size
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:3.2.2'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:3.3.0'
 }
 ```
 
@@ -191,6 +191,7 @@ class MainActivity : AppCompatActivity() {
 | 3000              | Yoti's services are down or unable to process the request           | Yes |
 | 3001              | An error occurred during a network request          | Yes |
 | 3002              | User has no network          | Yes |
+| 3003              | A timeout occurred during a network request          | Yes |
 | 4000              | The user did not grant permissions to the camera          | Yes |
 | 4001              | User Wrong submission          | Yes |
 | 5000              | No camera (when user's camera was not found and file upload is not allowed)          | No |
