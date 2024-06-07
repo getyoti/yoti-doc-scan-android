@@ -55,22 +55,28 @@ Add modules you require to your build.gradle:
 ```groovy
 dependencies {
     //If you need document capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:3.3.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:3.4.0'
+    //Or if you want the version without OCR and NFC capture, which is ~15Mb smaller in size
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-slim:3.4.0'
 
     //If you need supplementary documents
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:3.3.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:3.4.0'
 
     //If you need liveness
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:3.3.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:3.4.0'
 
     //If you need selfie capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:3.3.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:3.4.0'
     //Or if you want the version without an embedded AI model, which is ~20 MB smaller in size
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:3.3.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:3.4.0'
 }
 ```
 
-As you can see above, there are two options to add the `facecapture` module to your app:
+As you can see above, there are two options to add the `doc-scan` module to your app:
+- `yoti-sdk-doc-scan` standard ID doc capture flow which uses automatic document capture via OCR and NFC capture for NFC-chip supported documents such as passports
+- `yoti-sdk-doc-scan-slim` ID doc capture flow with a reduced feature set, using manual capture without OCR and NFC support. This results in a significantly smaller APK and install size.
+
+There are also two options to add the `facecapture` module to your app:
 - `yoti-sdk-facecapture` embeds an AI model for face detection.
 - `yoti-sdk-facecapture-unbundled` will manage the download of the AI model via Google Play Services the first time you start using the AI model and thus is ~20 MB smaller in size. Additionally, you can add the following metadata to your `AndroidManifest.xml` to get the model downloaded as soon as the app is installed:
 ```
@@ -112,6 +118,25 @@ And if you're using [Firebase performance gradle Plugin](https://firebase.google
          }
     }
 ```
+
+To further decrease the size footprint of the SDK, you can also opt to manually exclude some of the educational videos shown in the verification flows:
+- `yds_aadhaar_educational` (~750Kb) - only exclude if you do not support the Indian Aadhaar as a valid ID document type.
+- `yds_nfc_educational` (~440Kb) - only exclude if you do not support NFC-chipped document types such as certain passports. This is already excluded if you are using the 
+slim variant of the ID document module (`yoti-sdk-doc-scan-slim`) so no extra action is needed then.
+- `yds_liveness_educational` (~560Kb) - only exclude if you're using the `yoti-sdk-liveness-zoom` dependency.
+
+**Note:** It's important to mention that excluding these resources is not recommended and should be only done in case the conditions described above apply to
+your use case. Otherwise, the user experience would be impacted on the related screens which will not be showing anything in place of the missing video resources. 
+
+To exclude these video resources during build time you have to: 
+1. Set `shrinkResources true` for your build type in your app `build.gradle` file. This should already be the case if you're concerned about app size.
+2. Create a `keep.xml` file in your app module's `res/raw` resource directory, where you specify which resources you want to exclude:
+```
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:discard="@raw/yds_aadhaar_educational,@raw/yds_nfc_educational,@raw/yds_liveness_educational" />
+```
+
+For more information on resource shrinking and excluding resources, check out the [official documentation](https://developer.android.com/build/shrink-code#keep-resources).
 
 ### R8 and Proguard
 

@@ -1,5 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [3.4.0] - 2024-06-06
+## Added
+- Added a new slim variant of the ID document capture module, which includes a reduced feature set:
+  no automatic capture via OCR and no NFC capture. Using this variant results in a significantly
+  smaller APK size (by about 15Mb).
+
+## Changed
+- Updated to Kotlin version 1.8
+
 ## [3.3.0] - 2024-04-24
 ## Added
 - New error dialog and session status (3003) for slow internet timeouts
