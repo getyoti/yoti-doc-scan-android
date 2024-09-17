@@ -1,5 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [3.5.0] - 2024-09-17
+## Changed
+- Updated illustrations
+- Updated privacy link
+- Updated NFC screens
+- Improvements to the in-session feedback screens
+- Updated copies
+- Bug fixes and code improvements
+
 ## [3.4.0] - 2024-06-06
 ## Added
 - Added a new slim variant of the ID document capture module, which includes a reduced feature set:
