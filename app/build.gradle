@@ -7,8 +7,8 @@ android {
         applicationId "com.yoti.mobile.android.sdk.yotidocscan.sample"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 340
-        versionName "3.4.0"
+        versionCode 350
+        versionName "3.5.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -46,13 +46,13 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'androidx.core:core-ktx:1.7.0'
 
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:3.4.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:3.5.0'
 //    Alternative version without OCR and NFC capture, ~15Mb smaller in size
-//    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-slim:3.4.0'
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:3.4.0'
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:3.4.0'
+//    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-slim:3.5.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:3.5.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:3.5.0'
 //    Version with an embedded AI model
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:3.4.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:3.5.0'
 //    Alternative version without an embedded AI model, ~20 MB smaller in size
-//    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:3.4.0'
+//    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:3.5.0'
 }
