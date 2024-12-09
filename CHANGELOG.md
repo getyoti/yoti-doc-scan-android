@@ -1,5 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [3.5.2] - 2024-09-12
+- Updated internal dependency version
+
 ## [3.5.1] - 2024-10-18
 - New document supported: USA Passport card
 - Updated internal dependency version
