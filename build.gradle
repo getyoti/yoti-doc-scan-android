@@ -18,7 +18,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://maven.microblink.com' }
+        maven { url "https://maven.regulaforensics.com/RegulaDocumentReader" }
         maven { url "https://jitpack.io" }
     }
 }

@@ -1,5 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [4.0.0] - 2025-03-11
+### Changed
+- Document processing improvements. This introduces a small breaking change requiring replacing the
+  "microblink" maven url with the "regulaforensics" one in your allProjects entry in your root build.gradle
+  file (see README - Setup the SDK). You can also remove any "microblink"-related proguard rules you have.
+- Addressed compatibility issues when building with Android Gradle Plugin 8+
+- Various bug fixes and improvements
+
 ## [3.5.2] - 2024-09-12
 - Updated internal dependency version
 

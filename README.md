@@ -33,19 +33,20 @@ We strongly recommend you to migrate your app to the new Androidx libraries: htt
 
 ## Setup the SDK
 
-Make sure you have mavenCentral and microblink repository added in your allProjects entry in your root build.gradle:
+Make sure you have mavenCentral and regulaforensics repository added in your allProjects entry in your root build.gradle:
 
 ```groovy
 allprojects {
     repositories {
         mavenCentral()
-        maven { url 'https://maven.microblink.com' }
+        maven { url "https://maven.regulaforensics.com/RegulaDocumentReader" }
         maven { url "https://jitpack.io" }
         ...
     }
     ...
 }
 ```
+If you are still using Yoti SDK version `3.5.2` or below, please refer to [these instructions](https://github.com/getyoti/yoti-doc-scan-android/blob/v3.5.2/README.md#setup-the-sdk) instead, but keep in mind that support for older versions is not guaranteed and we highly recommend updating to the latest one as soon as possible.
 
 The Yoti SDK is composed of multiple feature modules. Each feature is optional, but you must include at least one to use the SDK.
 
@@ -55,20 +56,20 @@ Add modules you require to your build.gradle:
 ```groovy
 dependencies {
     //If you need document capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:3.5.2'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:4.0.0'
     //Or if you want the version without OCR and NFC capture, which is ~15Mb smaller in size
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-slim:3.5.2'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-slim:4.0.0'
 
     //If you need supplementary documents
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:3.5.2'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:4.0.0'
 
     //If you need liveness
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:3.5.2'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:4.0.0'
 
     //If you need selfie capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:3.5.2'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:4.0.0'
     //Or if you want the version without an embedded AI model, which is ~20 MB smaller in size
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:3.5.2'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:4.0.0'
 }
 ```
 
