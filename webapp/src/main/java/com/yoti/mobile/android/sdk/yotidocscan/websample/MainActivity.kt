@@ -194,8 +194,6 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
             domStorageEnabled = true
             javaScriptCanOpenWindowsAutomatically = true
             mediaPlaybackRequiresUserGesture = false
-            setAppCacheEnabled(true)
-
         }
         this.webViewClient = YdsWebClient()
         this.webChromeClient = YdsWebChromeClient()
