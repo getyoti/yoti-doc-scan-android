@@ -33,7 +33,7 @@ We strongly recommend you to migrate your app to the new Androidx libraries: htt
 
 ## Setup the SDK
 
-Make sure you have mavenCentral and regulaforensics repository added in your allProjects entry in your root build.gradle:
+Make sure you have the mavenCentral repository added in your allProjects entry in your root build.gradle file. If you are using the `yoti-sdk-doc-scan` module, you will also need to add the regulaforensics repository:
 
 ```groovy
 allprojects {
@@ -46,6 +46,9 @@ allprojects {
     ...
 }
 ```
+
+Note: If instead you are using the `yoti-sdk-doc-scan-slim` module, you do not need to add the regulaforensics repository.
+
 If you are still using Yoti SDK version `3.5.2` or below, please refer to [these instructions](https://github.com/getyoti/yoti-doc-scan-android/blob/v3.5.2/README.md#setup-the-sdk) instead, but keep in mind that support for older versions is not guaranteed and we highly recommend updating to the latest one as soon as possible.
 
 The Yoti SDK is composed of multiple feature modules. Each feature is optional, but you must include at least one to use the SDK.
