@@ -2,20 +2,28 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 29
+    namespace "com.yoti.mobile.android.sdk.yotidocscan.websample"
+
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.yoti.mobile.android.sdk.yotidocscan.websample"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
     buildFeatures {
         viewBinding true
+        buildConfig true
     }
 
     buildTypes {
