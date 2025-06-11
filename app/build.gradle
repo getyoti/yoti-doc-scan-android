@@ -4,11 +4,11 @@ apply plugin: 'kotlin-android'
 android {
     namespace "com.yoti.mobile.android.sdk.yotidocscan.sample"
 
-    compileSdk 33
+    compileSdk 34
     defaultConfig {
         applicationId "com.yoti.mobile.android.sdk.yotidocscan.sample"
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 410
         versionName "4.1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
