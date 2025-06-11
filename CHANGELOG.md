@@ -1,5 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [4.1.0] - 2025-06-11
+### Changed
+- Significant improvements to the face capture and static liveness flows by allowing the capture 
+  education/guidance screen and upload flow completion screen to be skipped
+- Removed intro screen for single step flows
+- Removed capture review screen for static liveness capture
+- Updated several illustrations
+- Several bug fixes and code improvements
+
 ## [4.0.0] - 2025-03-11
 ### Changed
 - Document processing improvements. This introduces a small breaking change for users of the
