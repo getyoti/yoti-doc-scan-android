@@ -1,18 +1,18 @@
 package com.yoti.mobile.android.sdk.yotidocscan.sample
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.yoti.mobile.android.sdk.yotidocscan.sample.ui.theme.YotiDocScanSampleAppTheme
 import com.yoti.mobile.android.yotisdkcore.YotiSdk
 import com.yoti.mobile.android.yotisdkcore.YotiSdkContract
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
     private lateinit var yotiSdk: YotiSdk
 
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         yotiSdk = YotiSdk(this@MainActivity)
 
         setContent {
-            MaterialTheme {
+            YotiDocScanSampleAppTheme {
                 var sessionId by remember { mutableStateOf("") }
                 var sessionToken by remember { mutableStateOf("") }
                 var sessionStatus by remember { mutableStateOf("") }
