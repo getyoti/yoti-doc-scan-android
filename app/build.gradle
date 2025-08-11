@@ -53,6 +53,8 @@ dependencies {
     def composeBom = platform("androidx.compose:compose-bom:2025.04.00")
     implementation composeBom
     implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.activity:activity-compose'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
 
     implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:4.1.0'
 //    Alternative version without OCR and NFC capture, ~15Mb smaller in size
