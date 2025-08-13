@@ -1,11 +1,11 @@
 package com.yoti.mobile.android.sdk.yotidocscan.sample
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -35,14 +35,9 @@ fun MainScreen(
             modifier = modifier
                     .fillMaxSize()
                     .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Spacer(Modifier.size(32.dp))
-        Text(
-                text = stringResource(id = R.string.app_name),
-                fontSize = 16.sp
-        )
-        Spacer(Modifier.size(16.dp))
         OutlinedTextField(
                 value = sessionId,
                 onValueChange = onSessionIdChanged,
@@ -51,11 +46,10 @@ fun MainScreen(
                 },
                 keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Done
+                        imeAction = ImeAction.Next
                 ),
                 modifier = Modifier.fillMaxWidth()
         )
-        Spacer(Modifier.size(16.dp))
         OutlinedTextField(
                 value = sessionToken,
                 onValueChange = onSessionTokenChanged,
@@ -68,16 +62,17 @@ fun MainScreen(
                 ),
                 modifier = Modifier.fillMaxWidth()
         )
-        Spacer(Modifier.size(32.dp))
         Text(
                 text = sessionStatus,
                 fontSize = 16.sp
         )
         Spacer(Modifier.weight(1f))
-        Button(onClick = onScanDocumentClicked) {
+        Button(
+                onClick = onScanDocumentClicked,
+                modifier = Modifier.padding(bottom = 16.dp)
+        ) {
             Text(text = stringResource(R.string.scan_document_button))
         }
-        Spacer(Modifier.size(60.dp))
     }
 }
 

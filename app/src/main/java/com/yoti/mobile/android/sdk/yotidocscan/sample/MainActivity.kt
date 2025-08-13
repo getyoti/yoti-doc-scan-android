@@ -8,16 +8,21 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import com.yoti.mobile.android.sdk.yotidocscan.sample.ui.theme.YotiDocScanSampleAppTheme
 import com.yoti.mobile.android.yotisdkcore.YotiSdk
 import com.yoti.mobile.android.yotisdkcore.YotiSdkContract
 
+@OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
 
     private lateinit var yotiSdk: YotiSdk
@@ -53,7 +58,15 @@ class MainActivity : ComponentActivity() {
                     showSessionStatus()
                 }
 
-                Scaffold { innerPadding ->
+                Scaffold(
+                        topBar = {
+                            TopAppBar(
+                                    title = {
+                                        Text(stringResource(id = R.string.app_name))
+                                    }
+                            )
+                        }
+                ) { innerPadding ->
                     MainScreen(
                             sessionId = sessionId,
                             onSessionIdChanged = { sessionId = it },
