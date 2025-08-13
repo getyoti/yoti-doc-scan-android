@@ -154,6 +154,7 @@ Then you can start the SDK like this:
 class MainActivity : AppCompatActivity() {
 
     private val yotiSdk = YotiSdk(this)
+    private val yotiSdkLauncher = registerForActivityResult(YotiSdkContract()) { onYotiSdkResult() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -164,19 +165,13 @@ class MainActivity : AppCompatActivity() {
             yotiSdk
                     .setSessionId("<Your Session ID>")
                     .setClientSessionToken("<Your Session Token>")
-                    .start(this)
+                    .start(yotiSdkLauncher)
         }
-
     }
-}
-```
 
-By default Activity request code is 9001 and you can handle it in `onActivityResult` by checking `YOTI_SDK_REQUEST_CODE`, but if you prefer to customise it, it is possible by specifying it in the `start` method:
-```kotlin
-            yotiSdk
-                    .setSessionId("<Your Session ID>")
-                    .setClientSessionToken("<Your Session Token>")
-                    .start(this, <Your Request Code>)
+    // ... other code ...
+  
+}
 ```
 
 ## Retrieve status of the session
@@ -188,20 +183,31 @@ You can then retrieve the current status of the current session like that:
 class MainActivity : AppCompatActivity() {
 
     private val yotiSdk = YotiSdk(this)
+  
+    // ... other code ...
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == YOTI_SDK_REQUEST_CODE) {
+    private fun onYotiSdkResult() {
+        val sessionStatusCode = yotiSdk.sessionStatusCode
+        val sessionStatusDescription = yotiSdk.sessionStatusDescription
 
-            val sessionStatusCode = yotiSdk.sessionStatusCode
-            val sessionStatusDescription = yotiSdk.sessionStatusDescription
-
-            result_text.text = "Result code: $sessionStatusCode Message: $sessionStatusDescription"
-        }
+        result_text.text = "Result code: $sessionStatusCode Message: $sessionStatusDescription"
     }
 }
 ```
 
+### Alternative for apps using Jetpack Compose
+
+If instead of the legacy View system you are using Jetpack Compose, you can create the `ActivityResultLauncher`
+inside your `@Composable` like this:
+
+```kotlin
+val launcher = rememberLauncherForActivityResult(contract = YotiSdkContract()) {
+    onYotiSdkResult()
+}
+```
+
+And then pass the `launcher` to the SDK in the same manner as shown above.
+See `MainActivity.kt` from the sample `app` module for a complete example.
 
 ### Possible status for the session
 
