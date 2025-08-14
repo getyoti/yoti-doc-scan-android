@@ -161,12 +161,7 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
     }
 
     private fun requestPermissions() {
-        val permissions = listOf(
-                permission.CAMERA,
-                permission.RECORD_AUDIO,
-                permission.READ_EXTERNAL_STORAGE,
-                permission.WRITE_EXTERNAL_STORAGE
-        )
+        val permissions = listOf(permission.CAMERA, permission.RECORD_AUDIO)
 
         val permissionsRequest = permissions.mapNotNull { permission ->
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
