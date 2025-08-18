@@ -1,7 +1,6 @@
 package com.yoti.mobile.android.sdk.yotidocscan.websample
 
 import android.Manifest.permission
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,21 +8,25 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.view.View.VISIBLE
-import android.webkit.PermissionRequest
 import android.webkit.ValueCallback
-import android.webkit.WebChromeClient
 import android.webkit.WebChromeClient.FileChooserParams
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.yoti.mobile.android.sdk.yotidocscan.websample.AccelerometerListener.ShakeListener
-import com.yoti.mobile.android.sdk.yotidocscan.websample.SessionBottomSheet.SessionConfigurationListener
-import com.yoti.mobile.android.sdk.yotidocscan.websample.databinding.ActivityMainBinding
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.yoti.mobile.android.sdk.yotidocscan.websample.ui.YotiDocScanWebSampleAppTheme
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -69,18 +72,11 @@ private const val PERMISSIONS_REQUEST_CODE = 1114
 private const val KEY_IS_VIEW_RECREATED = "MainActivity.KEY_IS_VIEW_RECREATED"
 private const val FINISH_SESSION_URL = "https://www.yoti.com/"
 
-class MainActivity : AppCompatActivity(), SessionConfigurationListener {
-
-    private var sessionBottomSheet: SessionBottomSheet? = null
+class MainActivity : AppCompatActivity() {
 
     private lateinit var cameraCaptureFileUri: Uri
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
     private var isViewRecreated: Boolean = false
-    private val shakeListener = AccelerometerListener(this, object: ShakeListener {
-        override fun onShake() {
-            showOptionsDialog()
-        }
-    })
 
     private val mimeTypeMap = mapOf(
             ".pdf" to "application/pdf",
@@ -88,19 +84,58 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
             ".jpg" to "image/jpeg"
     )
 
-    private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+        requestPermissions()
         isViewRecreated = savedInstanceState?.getBoolean(KEY_IS_VIEW_RECREATED) ?: false
 
-        requestPermissions()
+        setContent {
+            val navController = rememberNavController()
+            var sessionUrl by remember { mutableStateOf("") }
+            var showSessionFinishedDialog by remember { mutableStateOf(false) }
 
-        binding.webview.configureForYdsWeb()
+            YotiDocScanWebSampleAppTheme {
+                Scaffold { innerPadding ->
+                    NavHost(
+                            navController = navController,
+                            startDestination = AppDestinations.MAIN_SCREEN,
+                            modifier = Modifier.padding(innerPadding)
+                    ) {
+                        composable(route = AppDestinations.MAIN_SCREEN) {
+                            MainScreen(
+                                    sessionUrl = sessionUrl,
+                                    onSessionUrlChanged = { sessionUrl = it },
+                                    onStartSessionClicked = {
+                                        navController.navigate(AppDestinations.WEB_SCREEN)
+                                    }
+                            )
+                        }
+
+                        composable(route = AppDestinations.WEB_SCREEN) {
+                            WebScreen(
+                                    sessionUrl = sessionUrl,
+                                    showSessionFinishedDialog = showSessionFinishedDialog,
+                                    onPageCommitVisible = { url ->
+                                        // Detect the URL that indicates that flow is finished and close the app
+                                        if (url == FINISH_SESSION_URL) {
+                                            showSessionFinishedDialog = true
+                                        }
+                                    },
+                                    onFilePathCallbackReady = { callback ->
+                                        filePathCallback = callback
+                                    },
+                                    onShowCameraAndFilePickerChooser = { fileChooserParams ->
+                                        showCameraAndFilePickerChooser(fileChooserParams)
+                                    },
+                                    onCloseSession = { navController.popBackStack() },
+                                    onSessionFinished = { finish() }
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -114,22 +149,6 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
                 filePathCallback?.onReceiveValue(null)
             }
         }
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        shakeListener.start()
-    }
-
-    override fun onPause() {
-        shakeListener.stop()
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        binding.webview.destroy()
-        super.onDestroy()
     }
 
     override fun onRequestPermissionsResult(
@@ -144,15 +163,6 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
                         .show()
             }
         }
-    }
-
-    override fun onBackPressed() {
-        AlertDialog.Builder(this)
-                .setTitle("Close YDS Session")
-                .setMessage("Are you sure you want to finish YDS session?")
-                .setPositiveButton("Yes") { _, _ -> super.onBackPressed() }
-                .setNegativeButton("No", null)
-                .show()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -178,26 +188,8 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
         }
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
-    private fun WebView.configureForYdsWeb() {
-        WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
-
-        this.settings.apply {
-            javaScriptEnabled = true
-            allowFileAccess = true
-            allowUniversalAccessFromFileURLs = true
-            domStorageEnabled = true
-            javaScriptCanOpenWindowsAutomatically = true
-            mediaPlaybackRequiresUserGesture = false
-        }
-        this.webViewClient = YdsWebClient()
-        this.webChromeClient = YdsWebChromeClient()
-    }
-
     private fun showCameraAndFilePickerChooser(fileChooserParams: FileChooserParams) {
-
         cameraCaptureFileUri = createFileUri()
-
         Intent.createChooser(createFilePickerIntent(fileChooserParams), fileChooserParams.title)
                 .run {
                     putExtra(
@@ -240,65 +232,5 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
                 BuildConfig.APPLICATION_ID + ".provider",
                 File.createTempFile(imageFileName, ".jpg", storageDir)
         )
-    }
-
-    private inner class YdsWebChromeClient: WebChromeClient() {
-        // Launch file picker or camera intent and set the
-        // filePathCallback to set the capture results to the webview
-        override fun onShowFileChooser(
-                webView: WebView?,
-                filePathCallback: ValueCallback<Array<Uri>>?,
-                fileChooserParams: FileChooserParams?
-        ): Boolean {
-            this@MainActivity.filePathCallback = filePathCallback
-
-            return if (fileChooserParams?.mode == FileChooserParams.MODE_OPEN) {
-                showCameraAndFilePickerChooser(fileChooserParams)
-                true
-            } else {
-                false
-            }
-        }
-
-        // Grant permission requested
-        override fun onPermissionRequest(request: PermissionRequest?) {
-            request?.grant(request.resources)
-        }
-    }
-
-    private inner class YdsWebClient : WebViewClient() {
-        // Detect the URL that indicates that YDS flow is finished
-        // and close the app
-        override fun onPageCommitVisible(view: WebView?, url: String?) {
-            super.onPageCommitVisible(view, url)
-            if (url == FINISH_SESSION_URL) {
-                AlertDialog.Builder(this@MainActivity)
-                        .setTitle("YDS Session")
-                        .setMessage("Session finished")
-                        .setPositiveButton("OK") { _, _ -> this@MainActivity.finish() }
-                        .show()
-            }
-        }
-    }
-
-    private fun showOptionsDialog() {
-        if (sessionBottomSheet != null) return
-
-        sessionBottomSheet = SessionBottomSheet.newInstance()
-        sessionBottomSheet?.show(
-                supportFragmentManager,
-                SessionBottomSheet.FRAGMENT_TAG
-        )
-    }
-
-    override fun onSessionConfigurationSuccess(sessionUrl: String) {
-        with(binding) {
-            webview.visibility = VISIBLE
-            webview.loadUrl(sessionUrl)
-        }
-    }
-
-    override fun onSessionConfigurationDismiss() {
-        sessionBottomSheet = null
     }
 }
