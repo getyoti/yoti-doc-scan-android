@@ -3,25 +3,24 @@ package com.yoti.mobile.android.sdk.yotidocscan.websample
 import android.Manifest.permission
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.webkit.ValueCallback
 import android.webkit.WebChromeClient.FileChooserParams
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -67,12 +66,11 @@ import java.util.Locale
  *          - Manage back navigation: users can press back hardware button and exit from the flow
  */
 private const val CAPTURE_REQUEST_CODE = 1112
-private const val PERMISSIONS_REQUEST_CODE = 1114
 
 private const val KEY_IS_VIEW_RECREATED = "MainActivity.KEY_IS_VIEW_RECREATED"
 private const val FINISH_SESSION_URL = "https://www.yoti.com/"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
     private lateinit var cameraCaptureFileUri: Uri
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
@@ -87,13 +85,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requestPermissions()
         isViewRecreated = savedInstanceState?.getBoolean(KEY_IS_VIEW_RECREATED) ?: false
 
         setContent {
             val navController = rememberNavController()
             var sessionUrl by remember { mutableStateOf("") }
+            var showMissingPermissionsDialog by remember { mutableStateOf(false) }
             var showSessionFinishedDialog by remember { mutableStateOf(false) }
+
+            val permissionsLauncher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.RequestMultiplePermissions()
+            ) { permissions ->
+                showMissingPermissionsDialog = !(permissions.values.all { it })
+            }
+            LaunchedEffect(Unit) {
+                permissionsLauncher.launch(arrayOf(permission.CAMERA, permission.RECORD_AUDIO))
+            }
 
             YotiDocScanWebSampleAppTheme {
                 Scaffold { innerPadding ->
@@ -105,10 +112,12 @@ class MainActivity : AppCompatActivity() {
                         composable(route = AppDestinations.MAIN_SCREEN) {
                             MainScreen(
                                     sessionUrl = sessionUrl,
+                                    showMissingPermissionsDialog = showMissingPermissionsDialog,
                                     onSessionUrlChanged = { sessionUrl = it },
                                     onStartSessionClicked = {
                                         navController.navigate(AppDestinations.WEB_SCREEN)
-                                    }
+                                    },
+                                    onMissingPermissionsConfirmed = { finish() }
                             )
                         }
 
@@ -151,41 +160,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(
-            requestCode: Int, permissions: Array<String>, grantResults: IntArray
-    ) {
-        if (requestCode == PERMISSIONS_REQUEST_CODE) {
-            grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED }?.let {
-                AlertDialog.Builder(this)
-                        .setTitle("Permissions needed")
-                        .setMessage("All permissions are needed to continue with the YDS session")
-                        .setPositiveButton("OK") { _, _ -> super.finish() }
-                        .show()
-            }
-        }
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean(KEY_IS_VIEW_RECREATED, true)
-    }
-
-    private fun requestPermissions() {
-        val permissions = listOf(permission.CAMERA, permission.RECORD_AUDIO)
-
-        val permissionsRequest = permissions.mapNotNull { permission ->
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                permission
-            } else null
-        }.toTypedArray()
-
-        if (permissionsRequest.isNotEmpty()) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    permissionsRequest,
-                    PERMISSIONS_REQUEST_CODE
-            )
-        }
     }
 
     private fun showCameraAndFilePickerChooser(fileChooserParams: FileChooserParams) {

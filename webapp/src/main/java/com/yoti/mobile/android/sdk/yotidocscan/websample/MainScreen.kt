@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,8 +26,10 @@ import com.yoti.mobile.android.sdk.yotidocscan.websample.ui.YotiDocScanWebSample
 @Composable
 fun MainScreen(
         sessionUrl: String,
+        showMissingPermissionsDialog: Boolean,
         onSessionUrlChanged: (String) -> Unit,
         onStartSessionClicked: () -> Unit,
+        onMissingPermissionsConfirmed: () -> Unit,
         modifier: Modifier = Modifier
 ) {
     Column(
@@ -54,7 +58,25 @@ fun MainScreen(
         ) {
             Text(text = stringResource(id = R.string.start_session_button))
         }
+
+        if (showMissingPermissionsDialog) {
+            MissingPermissionsDialog { onMissingPermissionsConfirmed() }
+        }
     }
+}
+
+@Composable
+private fun MissingPermissionsDialog(onConfirm: () -> Unit) {
+    AlertDialog(
+            title = { Text(stringResource(id = R.string.missing_permissions_dialog_title)) },
+            text = { Text(stringResource(id = R.string.missing_permissions_dialog_text)) },
+            confirmButton = {
+                TextButton(onClick = onConfirm) {
+                    Text(stringResource(id = R.string.missing_permissions_dialog_confirm_button))
+                }
+            },
+            onDismissRequest = {}
+    )
 }
 
 @Preview(showBackground = true)
@@ -63,8 +85,10 @@ fun PreviewEmptyMainScreen() {
     YotiDocScanWebSampleAppTheme {
         MainScreen(
                 sessionUrl = "",
+                showMissingPermissionsDialog = false,
                 onSessionUrlChanged = {},
-                onStartSessionClicked = {}
+                onStartSessionClicked = {},
+                onMissingPermissionsConfirmed = {}
         )
     }
 }
@@ -75,8 +99,24 @@ fun PreviewMainScreen() {
     YotiDocScanWebSampleAppTheme {
         MainScreen(
                 sessionUrl = "https://example.com/session",
+                showMissingPermissionsDialog = false,
                 onSessionUrlChanged = {},
-                onStartSessionClicked = {}
+                onStartSessionClicked = {},
+                onMissingPermissionsConfirmed = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewMainScreenWithMissingPermissionsDialog() {
+    YotiDocScanWebSampleAppTheme {
+        MainScreen(
+                sessionUrl = "",
+                showMissingPermissionsDialog = true,
+                onSessionUrlChanged = {},
+                onStartSessionClicked = {},
+                onMissingPermissionsConfirmed = {}
         )
     }
 }

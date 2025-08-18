@@ -8,5 +8,8 @@
     <string name="close_session_dialog_dismiss_button">No</string>
     <string name="session_finished_dialog_title">IDV Session</string>
     <string name="session_finished_dialog_text">Session finished</string>
-    <string name="session_finished_dialog_confirm_button">Ok</string>
+    <string name="session_finished_dialog_confirm_button">OK</string>
+    <string name="missing_permissions_dialog_title">Permissions needed</string>
+    <string name="missing_permissions_dialog_text">All permissions are needed to continue with the IDV session</string>
+    <string name="missing_permissions_dialog_confirm_button">OK</string>
 </resources>
