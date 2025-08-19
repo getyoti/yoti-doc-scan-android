@@ -22,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.content.FileProvider
@@ -100,7 +101,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val navController = rememberNavController()
-            var sessionUrl by remember { mutableStateOf("") }
+            var sessionUrl by rememberSaveable { mutableStateOf("") }
             var showMissingPermissionsDialog by remember { mutableStateOf(false) }
             var showSessionFinishedDialog by remember { mutableStateOf(false) }
 
