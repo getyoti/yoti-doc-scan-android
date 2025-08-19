@@ -29,8 +29,7 @@ fun WebScreen(
         sessionUrl: String,
         showSessionFinishedDialog: Boolean,
         onPageCommitVisible: (String?) -> Unit,
-        onFilePathCallbackReady: (ValueCallback<Array<Uri>>?) -> Unit,
-        onShowCameraAndFilePickerChooser: (FileChooserParams) -> Unit,
+        onShowCameraAndFilePickerChooser: (ValueCallback<Array<Uri>>?, FileChooserParams) -> Unit,
         onCloseSession: () -> Unit,
         onSessionFinished: () -> Unit,
         modifier: Modifier = Modifier
@@ -43,11 +42,7 @@ fun WebScreen(
                         WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
                         configureSettings(settings)
                         configureWebViewClient(this, onPageCommitVisible)
-                        configureWebChromeClient(
-                                this,
-                                onFilePathCallbackReady,
-                                onShowCameraAndFilePickerChooser
-                        )
+                        configureWebChromeClient(this, onShowCameraAndFilePickerChooser)
                     }
                 },
                 update = { webView ->
@@ -129,8 +124,7 @@ private fun configureWebViewClient(webView: WebView, onPageCommitVisible: (Strin
 
 private fun configureWebChromeClient(
         webView: WebView,
-        onFilePathCallbackReady: (ValueCallback<Array<Uri>>?) -> Unit,
-        onShowCameraAndFilePickerChooser: (FileChooserParams) -> Unit
+        onShowCameraAndFilePickerChooser: (ValueCallback<Array<Uri>>?, FileChooserParams) -> Unit
 ) {
     webView.webChromeClient = object : WebChromeClient() {
         // Launch file picker or camera intent and set the
@@ -140,9 +134,8 @@ private fun configureWebChromeClient(
                 filePathCallback: ValueCallback<Array<Uri>>?,
                 fileChooserParams: FileChooserParams?
         ): Boolean {
-            onFilePathCallbackReady(filePathCallback)
             return if (fileChooserParams?.mode == FileChooserParams.MODE_OPEN) {
-                onShowCameraAndFilePickerChooser(fileChooserParams)
+                onShowCameraAndFilePickerChooser(filePathCallback, fileChooserParams)
                 true
             } else {
                 false

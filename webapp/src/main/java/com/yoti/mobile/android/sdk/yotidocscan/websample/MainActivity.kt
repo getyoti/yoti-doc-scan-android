@@ -1,7 +1,6 @@
 package com.yoti.mobile.android.sdk.yotidocscan.websample
 
 import android.Manifest.permission
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,6 +11,7 @@ import android.webkit.WebChromeClient.FileChooserParams
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -65,8 +65,6 @@ import java.util.Locale
  *          - Use a NoActionBar theme
  *          - Manage back navigation: users can press back hardware button and exit from the flow
  */
-private const val CAPTURE_REQUEST_CODE = 1112
-
 private const val KEY_IS_VIEW_RECREATED = "MainActivity.KEY_IS_VIEW_RECREATED"
 private const val FINISH_SESSION_URL = "https://www.yoti.com/"
 
@@ -102,6 +100,10 @@ class MainActivity : ComponentActivity() {
                 permissionsLauncher.launch(arrayOf(permission.CAMERA, permission.RECORD_AUDIO))
             }
 
+            val cameraAndFilePickerChooserLauncher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.StartActivityForResult()
+            ) { result -> handleCameraAndFilePickerChooserResult(result) }
+
             YotiDocScanWebSampleAppTheme {
                 Scaffold { innerPadding ->
                     NavHost(
@@ -131,11 +133,12 @@ class MainActivity : ComponentActivity() {
                                             showSessionFinishedDialog = true
                                         }
                                     },
-                                    onFilePathCallbackReady = { callback ->
+                                    onShowCameraAndFilePickerChooser = { callback, fileChooserParams ->
                                         filePathCallback = callback
-                                    },
-                                    onShowCameraAndFilePickerChooser = { fileChooserParams ->
-                                        showCameraAndFilePickerChooser(fileChooserParams)
+                                        val intent = createCameraAndFilePickerChooserIntent(
+                                                fileChooserParams
+                                        )
+                                        cameraAndFilePickerChooserLauncher.launch(intent)
                                     },
                                     onCloseSession = { navController.popBackStack() },
                                     onSessionFinished = { finish() }
@@ -147,34 +150,31 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == CAPTURE_REQUEST_CODE) {
-            if (!isViewRecreated && resultCode == Activity.RESULT_OK) {
-                val resultUri = data?.data ?: cameraCaptureFileUri
-                filePathCallback?.onReceiveValue(arrayOf(resultUri))
-            } else {
-                filePathCallback?.onReceiveValue(null)
-            }
-        }
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean(KEY_IS_VIEW_RECREATED, true)
     }
 
-    private fun showCameraAndFilePickerChooser(fileChooserParams: FileChooserParams) {
+    private fun handleCameraAndFilePickerChooserResult(result: ActivityResult) {
+        if (!isViewRecreated && result.resultCode == RESULT_OK) {
+            val resultUri = result.data?.data ?: cameraCaptureFileUri
+            filePathCallback?.onReceiveValue(arrayOf(resultUri))
+        } else {
+            filePathCallback?.onReceiveValue(null)
+        }
+    }
+
+    private fun createCameraAndFilePickerChooserIntent(fileChooserParams: FileChooserParams): Intent {
         cameraCaptureFileUri = createFileUri()
-        Intent.createChooser(createFilePickerIntent(fileChooserParams), fileChooserParams.title)
-                .run {
-                    putExtra(
-                            Intent.EXTRA_INITIAL_INTENTS,
-                            listOf(createCameraIntent(cameraCaptureFileUri)).toTypedArray()
-                    )
-                    startActivityForResult(this, CAPTURE_REQUEST_CODE)
-                }
+        return Intent.createChooser(
+                createFilePickerIntent(fileChooserParams),
+                fileChooserParams.title
+        ).also {
+            it.putExtra(
+                    Intent.EXTRA_INITIAL_INTENTS,
+                    listOf(createCameraIntent(cameraCaptureFileUri)).toTypedArray()
+            )
+        }
     }
 
     private fun createFilePickerIntent(params: FileChooserParams): Intent? {
