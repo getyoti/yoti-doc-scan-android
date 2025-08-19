@@ -2,6 +2,7 @@ package com.yoti.mobile.android.sdk.yotidocscan.websample
 
 import android.Manifest.permission
 import android.content.Intent
+import android.graphics.Color.TRANSPARENT
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -9,8 +10,10 @@ import android.provider.MediaStore
 import android.webkit.ValueCallback
 import android.webkit.WebChromeClient.FileChooserParams
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
@@ -82,6 +85,16 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge(
+                statusBarStyle = SystemBarStyle.light(
+                        scrim = TRANSPARENT,
+                        darkScrim = TRANSPARENT
+                ),
+                navigationBarStyle = SystemBarStyle.light(
+                        scrim = TRANSPARENT,
+                        darkScrim = TRANSPARENT
+                )
+        )
 
         isViewRecreated = savedInstanceState?.getBoolean(KEY_IS_VIEW_RECREATED) ?: false
 
