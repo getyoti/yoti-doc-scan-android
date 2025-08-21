@@ -35,20 +35,7 @@ fun WebScreen(
         modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier.fillMaxSize()) {
-        AndroidView(
-                modifier = Modifier.fillMaxSize(),
-                factory = { context ->
-                    WebView(context).apply {
-                        WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
-                        configureSettings(settings)
-                        configureWebViewClient(this, onPageCommitVisible)
-                        configureWebChromeClient(this, onShowCameraAndFilePickerChooser)
-                    }
-                },
-                update = { webView ->
-                    sessionUrl.takeIf { it.isNotBlank() }?.let { webView.loadUrl(it) }
-                }
-        )
+        AndroidWebView(sessionUrl, onPageCommitVisible, onShowCameraAndFilePickerChooser)
 
         var showCloseSessionDialog by remember { mutableStateOf(false) }
         BackHandler { showCloseSessionDialog = true }
@@ -65,6 +52,28 @@ fun WebScreen(
             SessionFinishedDialog(onConfirm = { onSessionFinished() })
         }
     }
+}
+
+@Composable
+private fun AndroidWebView(
+        sessionUrl: String,
+        onPageCommitVisible: (String?) -> Unit,
+        onShowCameraAndFilePickerChooser: (ValueCallback<Array<Uri>>?, FileChooserParams) -> Unit
+) {
+    AndroidView(
+            modifier = Modifier.fillMaxSize(),
+            factory = { context ->
+                WebView(context).apply {
+                    WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
+                    configureSettings(settings)
+                    configureWebViewClient(this, onPageCommitVisible)
+                    configureWebChromeClient(this, onShowCameraAndFilePickerChooser)
+                }
+            },
+            update = { webView ->
+                sessionUrl.takeIf { it.isNotBlank() }?.let { webView.loadUrl(it) }
+            }
+    )
 }
 
 @Composable
