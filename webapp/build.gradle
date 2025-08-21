@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 android {
     namespace "com.yoti.mobile.android.sdk.yotidocscan.websample"
 
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.yoti.mobile.android.sdk.yotidocscan.websample"
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
 
@@ -24,6 +25,7 @@ android {
     buildFeatures {
         viewBinding true
         buildConfig true
+        compose true
     }
 
     buildTypes {
@@ -38,12 +40,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.android.material:material:1.1.0'
 
-    // Multi-module projects: Add this dependency because of Android Studio Issue
-    // and androix.navigation dependencies management https://issuetracker.google.com/issues/152245564
-    implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
+    def composeBom = platform("androidx.compose:compose-bom:$composeBomVersion")
+    implementation composeBom
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.activity:activity-compose'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+
+    implementation "androidx.navigation:navigation-compose:$navigationComposeVersion"
 }
