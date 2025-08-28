@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 android {
     namespace "com.yoti.mobile.android.sdk.yotidocscan.sample"
@@ -26,6 +27,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        compose = true
     }
 
     buildTypes {
@@ -45,8 +47,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'androidx.core:core-ktx:1.7.0'
+
+    def composeBom = platform("androidx.compose:compose-bom:2025.04.00")
+    implementation composeBom
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.activity:activity-compose'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
 
     implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:4.1.0'
 //    Alternative version without OCR and NFC capture, ~15Mb smaller in size

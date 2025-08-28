@@ -1,56 +1,91 @@
 package com.yoti.mobile.android.sdk.yotidocscan.sample
 
-import android.content.Intent
+import android.graphics.Color.TRANSPARENT
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.yoti.mobile.android.sdk.yotidocscan.sample.databinding.ActivityMainBinding
-import com.yoti.mobile.android.yotisdkcore.YOTI_SDK_REQUEST_CODE
+import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.yoti.mobile.android.sdk.yotidocscan.sample.ui.theme.YotiDocScanSampleAppTheme
 import com.yoti.mobile.android.yotisdkcore.YotiSdk
+import com.yoti.mobile.android.yotisdkcore.YotiSdkContract
 
-class MainActivity : AppCompatActivity() {
+@OptIn(ExperimentalMaterial3Api::class)
+class MainActivity : ComponentActivity() {
 
     private lateinit var yotiSdk: YotiSdk
 
-    private lateinit var binding: ActivityMainBinding
-
-    private var sessionId: String = ""
-    private var sessionToken: String = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge(
+                statusBarStyle = SystemBarStyle.light(
+                        scrim = TRANSPARENT,
+                        darkScrim = TRANSPARENT
+                ),
+                navigationBarStyle = SystemBarStyle.light(
+                        scrim = TRANSPARENT,
+                        darkScrim = TRANSPARENT
+                )
+        )
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        yotiSdk = YotiSdk(this@MainActivity)
 
-        with(binding) {
-            edSessionId.setText(sessionId)
-            edTokenId.setText(sessionToken)
+        setContent {
+            YotiDocScanSampleAppTheme {
+                var sessionId by remember { mutableStateOf("") }
+                var sessionToken by remember { mutableStateOf("") }
+                var sessionStatus by remember { mutableStateOf("") }
 
-            yotiSdk = YotiSdk(this@MainActivity)
+                fun showSessionStatus() {
+                    val code = yotiSdk.sessionStatusCode
+                    val description = yotiSdk.sessionStatusDescription
+                    sessionStatus = getString(R.string.session_status_text, code, description)
+                }
 
-            buttonScanDocument.setOnClickListener {
-                val success = yotiSdk
-                        .setSessionId(edSessionId.text.toString())
-                        .setClientSessionToken(edTokenId.text.toString())
-                        .start(this@MainActivity) // Custom request code .start(this, 8888)
-                if (!success) {
+                val launcher = rememberLauncherForActivityResult(contract = YotiSdkContract()) {
                     showSessionStatus()
+                }
+
+                Scaffold(
+                        topBar = {
+                            TopAppBar(
+                                    title = {
+                                        Text(stringResource(id = R.string.app_name))
+                                    }
+                            )
+                        }
+                ) { innerPadding ->
+                    MainScreen(
+                            sessionId = sessionId,
+                            onSessionIdChanged = { sessionId = it },
+                            sessionToken = sessionToken,
+                            onSessionTokenChanged = { sessionToken = it },
+                            sessionStatus = sessionStatus,
+                            onScanDocumentClicked = {
+                                val success = yotiSdk
+                                        .setSessionId(sessionId)
+                                        .setClientSessionToken(sessionToken)
+                                        .start(launcher)
+                                if (!success) {
+                                    showSessionStatus()
+                                }
+                            },
+                            modifier = Modifier.padding(innerPadding)
+                    )
                 }
             }
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (YOTI_SDK_REQUEST_CODE == requestCode) {
-            showSessionStatus()
-        }
-    }
-
-    private fun showSessionStatus() {
-        val code = yotiSdk.sessionStatusCode
-        val description = yotiSdk.sessionStatusDescription
-        binding.sessionStatusText.text = getString(R.string.session_status_text, code, description)
     }
 }
