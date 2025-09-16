@@ -6,7 +6,7 @@
 
 Yoti is an identity checking platform that allows organisations to verify who people are, online and in person.
 The Yoti SDK, allows the user to take a photo of their ID, we then verify this instantly and prepare a response, which your system can then retrieve on your hosted site.
-Further information can be found [here](https://developers.yoti.com/yoti-doc-scan)
+Further information can be found [here](https://developers.yoti.com/identity-verification)
 
 ## Table of Contents
 - [Requirements](#requirements)
@@ -22,7 +22,7 @@ Further information can be found [here](https://developers.yoti.com/yoti-doc-sca
 - [License](#license)
 
 ## Requirements
-You have setup the Yoti Doc Scan SDK on your backend, you can find the documentation [here](https://developers.yoti.com/yoti-doc-scan/getting-started)
+You have setup the Yoti Doc Scan SDK on your backend, you can find the documentation [here](https://developers.yoti.com/identity-verification/getting-started)
 
 Minimum Android version supported: 21
 
