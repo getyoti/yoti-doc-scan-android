@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">webapp</string>
+    <string name="session_url_hint">Session URL</string>
+    <string name="start_session_button">Start session</string>
+    <string name="close_session_dialog_title">Close IDV Session</string>
+    <string name="close_session_dialog_text">Are you sure you want to close the IDV session?</string>
+    <string name="close_session_dialog_confirm_button">Yes</string>
+    <string name="close_session_dialog_dismiss_button">No</string>
+    <string name="session_finished_dialog_title">IDV Session</string>
+    <string name="session_finished_dialog_text">Session finished</string>
+    <string name="session_finished_dialog_confirm_button">OK</string>
+    <string name="missing_permissions_dialog_title">Permissions needed</string>
+    <string name="missing_permissions_dialog_text">All permissions are needed to continue with the IDV session</string>
+    <string name="missing_permissions_dialog_confirm_button">OK</string>
 </resources>

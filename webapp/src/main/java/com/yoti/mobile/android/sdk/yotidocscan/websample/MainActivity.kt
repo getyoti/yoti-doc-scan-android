@@ -1,29 +1,35 @@
 package com.yoti.mobile.android.sdk.yotidocscan.websample
 
 import android.Manifest.permission
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.graphics.Color.TRANSPARENT
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.view.View.VISIBLE
-import android.webkit.PermissionRequest
 import android.webkit.ValueCallback
-import android.webkit.WebChromeClient
 import android.webkit.WebChromeClient.FileChooserParams
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.core.content.FileProvider
-import com.yoti.mobile.android.sdk.yotidocscan.websample.AccelerometerListener.ShakeListener
-import com.yoti.mobile.android.sdk.yotidocscan.websample.SessionBottomSheet.SessionConfigurationListener
-import com.yoti.mobile.android.sdk.yotidocscan.websample.databinding.ActivityMainBinding
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.yoti.mobile.android.sdk.yotidocscan.websample.ui.YotiDocScanWebSampleAppTheme
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -63,24 +69,14 @@ import java.util.Locale
  *          - Use a NoActionBar theme
  *          - Manage back navigation: users can press back hardware button and exit from the flow
  */
-private const val CAPTURE_REQUEST_CODE = 1112
-private const val PERMISSIONS_REQUEST_CODE = 1114
-
 private const val KEY_IS_VIEW_RECREATED = "MainActivity.KEY_IS_VIEW_RECREATED"
 private const val FINISH_SESSION_URL = "https://www.yoti.com/"
 
-class MainActivity : AppCompatActivity(), SessionConfigurationListener {
-
-    private var sessionBottomSheet: SessionBottomSheet? = null
+class MainActivity : ComponentActivity() {
 
     private lateinit var cameraCaptureFileUri: Uri
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
     private var isViewRecreated: Boolean = false
-    private val shakeListener = AccelerometerListener(this, object: ShakeListener {
-        override fun onShake() {
-            showOptionsDialog()
-        }
-    })
 
     private val mimeTypeMap = mapOf(
             ".pdf" to "application/pdf",
@@ -88,71 +84,84 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
             ".jpg" to "image/jpeg"
     )
 
-    private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        enableEdgeToEdge(
+                statusBarStyle = SystemBarStyle.light(
+                        scrim = TRANSPARENT,
+                        darkScrim = TRANSPARENT
+                ),
+                navigationBarStyle = SystemBarStyle.light(
+                        scrim = TRANSPARENT,
+                        darkScrim = TRANSPARENT
+                )
+        )
 
         isViewRecreated = savedInstanceState?.getBoolean(KEY_IS_VIEW_RECREATED) ?: false
 
-        requestPermissions()
+        setContent {
+            val navController = rememberNavController()
+            var sessionUrl by rememberSaveable { mutableStateOf("") }
+            var showMissingPermissionsDialog by remember { mutableStateOf(false) }
+            var showSessionFinishedDialog by remember { mutableStateOf(false) }
 
-        binding.webview.configureForYdsWeb()
-    }
+            val permissionsLauncher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.RequestMultiplePermissions()
+            ) { permissions ->
+                showMissingPermissionsDialog = !(permissions.values.all { it })
+            }
+            LaunchedEffect(Unit) {
+                permissionsLauncher.launch(arrayOf(permission.CAMERA, permission.RECORD_AUDIO))
+            }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+            val cameraAndFilePickerChooserLauncher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.StartActivityForResult()
+            ) { result -> handleCameraAndFilePickerChooserResult(result) }
 
-        if (requestCode == CAPTURE_REQUEST_CODE) {
-            if (!isViewRecreated && resultCode == Activity.RESULT_OK) {
-                val resultUri = data?.data ?: cameraCaptureFileUri
-                filePathCallback?.onReceiveValue(arrayOf(resultUri))
-            } else {
-                filePathCallback?.onReceiveValue(null)
+            YotiDocScanWebSampleAppTheme {
+                Scaffold { innerPadding ->
+                    NavHost(
+                            navController = navController,
+                            startDestination = AppDestinations.MAIN_SCREEN,
+                            modifier = Modifier.padding(innerPadding)
+                    ) {
+                        composable(route = AppDestinations.MAIN_SCREEN) {
+                            MainScreen(
+                                    sessionUrl = sessionUrl,
+                                    showMissingPermissionsDialog = showMissingPermissionsDialog,
+                                    onSessionUrlChanged = { sessionUrl = it },
+                                    onStartSessionClicked = {
+                                        navController.navigate(AppDestinations.WEB_SCREEN)
+                                    },
+                                    onMissingPermissionsConfirmed = { finish() }
+                            )
+                        }
+
+                        composable(route = AppDestinations.WEB_SCREEN) {
+                            WebScreen(
+                                    sessionUrl = sessionUrl,
+                                    showSessionFinishedDialog = showSessionFinishedDialog,
+                                    onPageCommitVisible = { url ->
+                                        // Detect the URL that indicates that flow is finished and close the app
+                                        if (url == FINISH_SESSION_URL) {
+                                            showSessionFinishedDialog = true
+                                        }
+                                    },
+                                    onShowCameraAndFilePickerChooser = { callback, fileChooserParams ->
+                                        filePathCallback = callback
+                                        val intent = createCameraAndFilePickerChooserIntent(
+                                                fileChooserParams
+                                        )
+                                        cameraAndFilePickerChooserLauncher.launch(intent)
+                                    },
+                                    onCloseSession = { navController.popBackStack() },
+                                    onSessionFinished = { finish() }
+                            )
+                        }
+                    }
+                }
             }
         }
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        shakeListener.start()
-    }
-
-    override fun onPause() {
-        shakeListener.stop()
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        binding.webview.destroy()
-        super.onDestroy()
-    }
-
-    override fun onRequestPermissionsResult(
-            requestCode: Int, permissions: Array<String>, grantResults: IntArray
-    ) {
-        if (requestCode == PERMISSIONS_REQUEST_CODE) {
-            grantResults.firstOrNull { it != PackageManager.PERMISSION_GRANTED }?.let {
-                AlertDialog.Builder(this)
-                        .setTitle("Permissions needed")
-                        .setMessage("All permissions are needed to continue with the YDS session")
-                        .setPositiveButton("OK") { _, _ -> super.finish() }
-                        .show()
-            }
-        }
-    }
-
-    override fun onBackPressed() {
-        AlertDialog.Builder(this)
-                .setTitle("Close YDS Session")
-                .setMessage("Are you sure you want to finish YDS session?")
-                .setPositiveButton("Yes") { _, _ -> super.onBackPressed() }
-                .setNegativeButton("No", null)
-                .show()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -160,57 +169,26 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
         outState.putBoolean(KEY_IS_VIEW_RECREATED, true)
     }
 
-    private fun requestPermissions() {
-        val permissions = listOf(
-                permission.CAMERA,
-                permission.RECORD_AUDIO,
-                permission.READ_EXTERNAL_STORAGE,
-                permission.WRITE_EXTERNAL_STORAGE
-        )
+    private fun handleCameraAndFilePickerChooserResult(result: ActivityResult) {
+        if (!isViewRecreated && result.resultCode == RESULT_OK) {
+            val resultUri = result.data?.data ?: cameraCaptureFileUri
+            filePathCallback?.onReceiveValue(arrayOf(resultUri))
+        } else {
+            filePathCallback?.onReceiveValue(null)
+        }
+    }
 
-        val permissionsRequest = permissions.mapNotNull { permission ->
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                permission
-            } else null
-        }.toTypedArray()
-
-        if (permissionsRequest.isNotEmpty()) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    permissionsRequest,
-                    PERMISSIONS_REQUEST_CODE
+    private fun createCameraAndFilePickerChooserIntent(fileChooserParams: FileChooserParams): Intent {
+        cameraCaptureFileUri = createFileUri()
+        return Intent.createChooser(
+                createFilePickerIntent(fileChooserParams),
+                fileChooserParams.title
+        ).also {
+            it.putExtra(
+                    Intent.EXTRA_INITIAL_INTENTS,
+                    listOf(createCameraIntent(cameraCaptureFileUri)).toTypedArray()
             )
         }
-    }
-
-    @SuppressLint("SetJavaScriptEnabled")
-    private fun WebView.configureForYdsWeb() {
-        WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
-
-        this.settings.apply {
-            javaScriptEnabled = true
-            allowFileAccess = true
-            allowUniversalAccessFromFileURLs = true
-            domStorageEnabled = true
-            javaScriptCanOpenWindowsAutomatically = true
-            mediaPlaybackRequiresUserGesture = false
-        }
-        this.webViewClient = YdsWebClient()
-        this.webChromeClient = YdsWebChromeClient()
-    }
-
-    private fun showCameraAndFilePickerChooser(fileChooserParams: FileChooserParams) {
-
-        cameraCaptureFileUri = createFileUri()
-
-        Intent.createChooser(createFilePickerIntent(fileChooserParams), fileChooserParams.title)
-                .run {
-                    putExtra(
-                            Intent.EXTRA_INITIAL_INTENTS,
-                            listOf(createCameraIntent(cameraCaptureFileUri)).toTypedArray()
-                    )
-                    startActivityForResult(this, CAPTURE_REQUEST_CODE)
-                }
     }
 
     private fun createFilePickerIntent(params: FileChooserParams): Intent? {
@@ -245,65 +223,5 @@ class MainActivity : AppCompatActivity(), SessionConfigurationListener {
                 BuildConfig.APPLICATION_ID + ".provider",
                 File.createTempFile(imageFileName, ".jpg", storageDir)
         )
-    }
-
-    private inner class YdsWebChromeClient: WebChromeClient() {
-        // Launch file picker or camera intent and set the
-        // filePathCallback to set the capture results to the webview
-        override fun onShowFileChooser(
-                webView: WebView?,
-                filePathCallback: ValueCallback<Array<Uri>>?,
-                fileChooserParams: FileChooserParams?
-        ): Boolean {
-            this@MainActivity.filePathCallback = filePathCallback
-
-            return if (fileChooserParams?.mode == FileChooserParams.MODE_OPEN) {
-                showCameraAndFilePickerChooser(fileChooserParams)
-                true
-            } else {
-                false
-            }
-        }
-
-        // Grant permission requested
-        override fun onPermissionRequest(request: PermissionRequest?) {
-            request?.grant(request.resources)
-        }
-    }
-
-    private inner class YdsWebClient : WebViewClient() {
-        // Detect the URL that indicates that YDS flow is finished
-        // and close the app
-        override fun onPageCommitVisible(view: WebView?, url: String?) {
-            super.onPageCommitVisible(view, url)
-            if (url == FINISH_SESSION_URL) {
-                AlertDialog.Builder(this@MainActivity)
-                        .setTitle("YDS Session")
-                        .setMessage("Session finished")
-                        .setPositiveButton("OK") { _, _ -> this@MainActivity.finish() }
-                        .show()
-            }
-        }
-    }
-
-    private fun showOptionsDialog() {
-        if (sessionBottomSheet != null) return
-
-        sessionBottomSheet = SessionBottomSheet.newInstance()
-        sessionBottomSheet?.show(
-                supportFragmentManager,
-                SessionBottomSheet.FRAGMENT_TAG
-        )
-    }
-
-    override fun onSessionConfigurationSuccess(sessionUrl: String) {
-        with(binding) {
-            webview.visibility = VISIBLE
-            webview.loadUrl(sessionUrl)
-        }
-    }
-
-    override fun onSessionConfigurationDismiss() {
-        sessionBottomSheet = null
     }
 }
