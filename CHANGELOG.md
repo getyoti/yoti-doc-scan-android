@@ -1,5 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [4.2.0] - 2025-10-14
+### Changed
+- Significant improvements to the zoom liveness flow by allowing the capture education/guidance screen and upload flow completion screen to be skipped
+- Document capture improvements (barcode detection)
+- Content is displayed edge-to-edge on Android 11 and above
+- Support 16 KB page sizes
+- Several bug fixes and code improvements
+
 ## [4.1.0] - 2025-06-11
 ### Changed
 - Significant improvements to the face capture and static liveness flows by allowing the capture 
