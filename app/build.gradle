@@ -5,11 +5,11 @@ apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 android {
     namespace "com.yoti.mobile.android.sdk.yotidocscan.sample"
 
-    compileSdk 34
+    compileSdk 35
     defaultConfig {
         applicationId "com.yoti.mobile.android.sdk.yotidocscan.sample"
         minSdkVersion 21
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode 420
         versionName "4.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
