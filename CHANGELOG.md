@@ -1,5 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [4.2.1] - 2025-10-22
+### Fixed
+- Edge-to-edge related UI bug fixes
+
 ## [4.2.0] - 2025-10-14
 ### Changed
 - Significant improvements to the zoom liveness flow by allowing the capture education/guidance screen and upload flow completion screen to be skipped
