@@ -57,20 +57,20 @@ Add modules you require to your build.gradle:
 ```groovy
 dependencies {
     //If you need document capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:4.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:4.2.1'
     //Or if you want the version without OCR and NFC capture, which is ~15Mb smaller in size
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-slim:4.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-slim:4.2.1'
 
     //If you need supplementary documents
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:4.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-sup:4.2.1'
 
     //If you need liveness
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:4.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-liveness-zoom:4.2.1'
 
     //If you need selfie capture
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:4.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:4.2.1'
     //Or if you want the version without an embedded AI model, which is ~20 MB smaller in size
-    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:4.2.0'
+    implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:4.2.1'
 }
 ```
 
