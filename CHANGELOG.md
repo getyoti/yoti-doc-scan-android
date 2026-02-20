@@ -1,5 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [4.3.0] - 2026-02-20
+### Changed
+- UI updates for supplementary document flow
+- Removed transitive dependency on kotlin-android-extensions
+- Internal dependency updates
+- Several bug fixes and code improvements
+
 ## [4.2.1] - 2025-10-22
 ### Fixed
 - Edge-to-edge related UI bug fixes
