@@ -4,6 +4,7 @@
       "Read(./build)",
       "Read(./**/build)",
       "Read(./.idea)",
+      "Read(./.cxx)",
       "Read(./**/*.iml)",
       "Read(./.gradle)",
       "Read(./gradlew)",
