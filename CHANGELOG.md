@@ -1,5 +1,21 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [4.4.0] - 2026-09-14
+### Added
+- Significant improvements to the ID Document Capture flow by allowing the capture requirements screen, education screen and upload flow completion screen to be skipped
+- Significant improvements to the Sup Document Capture flow by allowing the capture education screen and upload flow completion screen to be skipped
+- Added new help icon as toolbar action to most screens linking to FAQ screen
+
+### Changed
+- Updated compile and target SDK versions to 36
+- Date restriction format updates for the Document Selection screen
+- Opted-out (temporarily) of new Android screen orientation, resizability, and aspect ratio restrictions
+- UI updates and improvements
+
+### Fixed
+- Removed remaining transient dependency on internal ui-widgets library
+- Bug fixes and improvements
+
 ## [4.3.0] - 2026-02-20
 ### Changed
 - UI updates for supplementary document flow
