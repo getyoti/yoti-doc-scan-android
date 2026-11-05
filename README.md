@@ -329,6 +329,20 @@ android {
 }
 ```
 
+### Google Play automatic protection
+
+Google Play's [automatic protection](https://support.google.com/googleplay/android-developer/answer/10183279) (managed from the **Protected with Play** page in Play Console, and sometimes referred to as automatic integrity protection) modifies your app's code after you upload your App Bundle to add Google's own anti-tamper checks. As Google states in its recommended practices, automatic protection *"may not be compatible with other runtime anti-tamper solutions, and trying to use them together may result in user issues"*.
+
+The `yoti-sdk-liveness-zoom` module relies on a third-party library that performs its own runtime integrity checks, so the two protections can conflict. Any app that includes `yoti-sdk-liveness-zoom` and has automatic protection enabled may be affected, regardless of the Yoti SDK version: the app might crash when the user starts the face scan, even if the rest of the flow works as expected.
+
+Because Google applies the protection after upload, such issues would not show up in builds you distribute yourself, such as debug builds, builds uploaded through internal app sharing (which Google does not protect), or builds distributed outside Google Play (for example, Firebase App Distribution).
+
+If automatic protection is enabled for your app, we strongly recommend that you:
+- Release every protected build to a Google Play [testing track](https://support.google.com/googleplay/android-developer/answer/9845334) (internal, closed or open testing) before promoting it to production. Google applies protection on all tracks, so a build installed from a testing track matches what your users will receive.
+- Install the app from Google Play and complete a full liveness session on a range of devices.
+
+If you need to keep automatic protection enabled and you encounter issues with the face scan, consider using static liveness (the `yoti-sdk-facecapture` or `yoti-sdk-facecapture-unbundled` module) instead of `yoti-sdk-liveness-zoom`. This also requires your backend to request static liveness when creating the session.
+
 ## Support
 For any questions or support please contact us here: https://support.yoti.com
 Once we have answered your question we may contact you again to discuss Yoti products and services. If you'd prefer us not to do this, please let us know when you e-mail.
