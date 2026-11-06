@@ -24,7 +24,7 @@ Further information can be found [here](https://developers.yoti.com/identity-ver
 ## Requirements
 You have setup the Yoti Doc Scan SDK on your backend, you can find the documentation [here](https://developers.yoti.com/identity-verification/getting-started)
 
-Minimum Android version supported: 21
+Minimum Android API level supported: 21.
 
 Note: we are using libraries from Android Jetpack. If you are still using the original Android Support Libraries you may encounter some issues when trying to use our SDK.
 We strongly recommend you to migrate your app to the new Androidx libraries: https://developer.android.com/jetpack/androidx/migrate
