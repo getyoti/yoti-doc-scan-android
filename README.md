@@ -10,15 +10,23 @@ Further information can be found [here](https://developers.yoti.com/identity-ver
 
 ## Table of Contents
 - [Requirements](#requirements)
-- [Set up the SDK](#setup-the-sdk)
-    - [R8 / Proguard](#r8-and-proguard)
+- [Set up the SDK](#set-up-the-sdk)
+    - [R8 and ProGuard](#r8-and-proguard)
 - [Start the SDK](#start-the-sdk)
 - [Retrieve status of the session](#retrieve-status-of-the-session)
+    - [Alternative for apps using Jetpack Compose](#alternative-for-apps-using-jetpack-compose)
     - [Possible status for the session](#possible-status-for-the-session)
-- [Customization](#customisation)
+- [Supported languages](#supported-languages)
+- [Customisation](#customisation)
+    - [Font type](#font-type)
     - [Font Colour](#font-colour)
     - [Colours](#colours)
 - [SDK size](#sdk-size)
+    - [Individual modules](#individual-modules)
+    - [Module combinations](#module-combinations)
+- [Reducing the size of your APK](#reducing-the-size-of-your-apk)
+- [Troubleshooting](#troubleshooting)
+    - [Google Play automatic protection](#google-play-automatic-protection)
 - [Support](#support)
 - [License](#license)
 
@@ -30,7 +38,7 @@ Minimum Android API level supported: 21.
 Note: we are using libraries from Android Jetpack. If you are still using the original Android Support Libraries you may encounter some issues when trying to use our SDK.
 We strongly recommend you to migrate your app to the new Androidx libraries: https://developer.android.com/jetpack/androidx/migrate
 
-## Setup the SDK
+## Set up the SDK
 
 Make sure you have the mavenCentral repository added in your allProjects entry in your root build.gradle file. If you are using the `yoti-sdk-doc-scan` module, you will also need to add the regulaforensics repository:
 
@@ -139,7 +147,7 @@ To exclude these video resources during build time you have to:
 
 For more information on resource shrinking and excluding resources, check out the [official documentation](https://developer.android.com/build/shrink-code#keep-resources).
 
-### R8 and Proguard
+### R8 and ProGuard
 
 If you are using R8 the shrinking and obfuscation rules are included automatically.
 
