@@ -18,6 +18,7 @@ Further information can be found [here](https://developers.yoti.com/identity-ver
 - [Customization](#customisation)
     - [Font Colour](#font-colour)
     - [Colours](#colours)
+- [SDK size](#sdk-size)
 - [Support](#support)
 - [License](#license)
 
@@ -58,7 +59,7 @@ Add modules you require to your build.gradle:
 dependencies {
     //If you need document capture
     implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan:4.4.0'
-    //Or if you want the version without OCR and NFC capture, which is ~15Mb smaller in size
+    //Or if you want the version without OCR and NFC capture, which is ~20 MB smaller in size
     implementation 'com.yoti.mobile.android.sdk:yoti-sdk-doc-scan-slim:4.4.0'
 
     //If you need supplementary documents
@@ -69,18 +70,18 @@ dependencies {
 
     //If you need selfie capture
     implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture:4.4.0'
-    //Or if you want the version without an embedded AI model, which is ~20 MB smaller in size
+    //Or if you want the version without an embedded AI model, which is ~7 MB smaller in size
     implementation 'com.yoti.mobile.android.sdk:yoti-sdk-facecapture-unbundled:4.4.0'
 }
 ```
 
 As you can see above, there are two options to add the `doc-scan` module to your app:
 - `yoti-sdk-doc-scan` standard ID doc capture flow which uses automatic document capture via OCR and NFC capture for NFC-chip supported documents such as passports
-- `yoti-sdk-doc-scan-slim` ID doc capture flow with a reduced feature set, using manual capture without OCR and NFC support. This results in a significantly smaller APK and install size.
+- `yoti-sdk-doc-scan-slim` ID doc capture flow with a reduced feature set, using manual capture without OCR and NFC support. This results in a significantly smaller APK and install size (see [SDK size](#sdk-size)).
 
 There are also two options to add the `facecapture` module to your app:
 - `yoti-sdk-facecapture` embeds an AI model for face detection.
-- `yoti-sdk-facecapture-unbundled` will manage the download of the AI model via Google Play Services the first time you start using the AI model and thus is ~20 MB smaller in size. Additionally, you can add the following metadata to your `AndroidManifest.xml` to get the model downloaded as soon as the app is installed:
+- `yoti-sdk-facecapture-unbundled` will manage the download of the AI model via Google Play Services the first time you start using the AI model and thus is ~7 MB smaller in size. Additionally, you can add the following metadata to your `AndroidManifest.xml` to get the model downloaded as soon as the app is installed:
 ```
 <application ...>
   ...
@@ -307,6 +308,45 @@ In order to change the colours of the different elements of the screens you just
 <color name="yoti_sdk_colorAccentPressed">#AA164A</color>
 <color name="yoti_sdk_colorAccentDisabled">#F8B3CB</color>
 ```
+## SDK size
+
+The tables below show approximately how much each SDK module adds to your app's **download size** from Google Play.
+
+When you publish an [App Bundle](https://developer.android.com/guide/app-bundle), Google Play generates optimized APKs for each device. Users only download the native code for their device's CPU architecture, plus the resources for their screen density and language.
+
+Some SDK modules include native libraries, so their size depends on the architecture: `arm64-v8a` is used by most current devices, and `armeabi-v7a` by older or entry-level 32-bit devices. The tables only list `armeabi-v7a` and `arm64-v8a`; `x86` and `x86_64` are mainly used by emulators and some ChromeOS devices, so they are not that relevant here.
+
+### Individual modules
+
+| Module | Feature | armeabi-v7a | arm64-v8a |
+|--------|---------|------------:|----------:|
+| `yoti-sdk-doc-scan` | ID documents | 23.0 MB | 25.2 MB |
+| `yoti-sdk-doc-scan-slim` | ID documents (without OCR and NFC) | 3.5 MB | 3.6 MB |
+| `yoti-sdk-doc-scan-sup` | Supplementary documents | 2.4 MB | 2.4 MB |
+| `yoti-sdk-liveness-zoom` | Liveness | 8.0 MB | 8.2 MB |
+| `yoti-sdk-facecapture` | Face capture | 15.0 MB | 15.9 MB |
+| `yoti-sdk-facecapture-unbundled` | Face capture (AI model downloaded via Google Play services) | 8.7 MB | 9.0 MB |
+
+### Module combinations
+
+Modules share common code and dependencies, which are only included once. This means a combination of modules adds less than the sum of its individual modules.
+
+| Combination | armeabi-v7a | arm64-v8a |
+|-------------|------------:|----------:|
+| ID documents + Supplementary documents | 23.3 MB | 25.5 MB |
+| ID documents + Liveness | 29.2 MB | 31.6 MB |
+| ID documents + Face capture | 35.5 MB | 38.5 MB |
+| ID documents + Supplementary documents + Liveness | 29.5 MB | 31.9 MB |
+| ID documents + Supplementary documents + Face capture | 35.8 MB | 38.8 MB |
+| ID documents (slim) + Supplementary documents + Liveness | 9.9 MB | 10.2 MB |
+| ID documents (slim) + Supplementary documents + Face capture (unbundled) | 10.0 MB | 10.3 MB |
+
+**Notes:**
+- The figures above represent estimated Google Play download sizes for an English-language device.
+- The space used on the device after installation will probably be larger than the download size, because downloads are compressed.
+- If your app already uses some of the SDK's dependencies, the actual increase in size will be smaller, which will benefit you.
+- If you distribute a universal APK instead of an App Bundle, it contains native code for every architecture. The SDK's size impact will be considerably larger than shown above.
+
 ## Reducing the size of your APK
 We recommend that you distribute your app using [App Bundle](https://developer.android.com/guide/app-bundle). This new Google Play feature allows you to use [Play Feature delivery](https://developer.android.com/guide/app-bundle/play-feature-delivery#customize_delivery) which uses advanced capabilities of app bundles, allowing certain features of your app to be delivered conditionally or downloaded on demand.
 App Bundle also defer apk generation to Google Play, allowing it to generate minimal APK for each specific device that downloads your app, including only required processor architecture support. 
